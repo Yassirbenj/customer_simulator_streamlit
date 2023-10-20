@@ -1,0 +1,7 @@
+streamlit
+langchain
+dotenv
+streamlit_chat
+pandas
+streamlit_gsheets
+datetime
