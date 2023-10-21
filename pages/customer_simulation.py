@@ -32,6 +32,7 @@ def main():
         #st.write(customer_persona)
         personae=st.selectbox('Select your personae',personaes.index, key="personae")
         with st.sidebar:
+                st.write(customer_persona)
                 st.write(personaes.iloc[personae-1,:])
         start=st.button('Start')
         if start:
