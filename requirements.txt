@@ -4,3 +4,4 @@ streamlit_chat
 pandas
 st-gsheets-connection
 datetime
+streamlit_authenticator
