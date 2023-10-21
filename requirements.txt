@@ -2,5 +2,5 @@ streamlit
 langchain
 streamlit_chat
 pandas
-streamlit_gsheets
+st-gsheets-connection
 datetime
