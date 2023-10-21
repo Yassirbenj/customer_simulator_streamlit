@@ -6,7 +6,7 @@ from yaml.loader import SafeLoader
 
 st.header("AUTHENTIFICATION")
 
-with open('/config.yaml') as file:
+with open('/mount/src/customer_simulator_streamlit/config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 
 authenticator = stauth.Authenticate(
