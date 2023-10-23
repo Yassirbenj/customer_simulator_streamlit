@@ -37,12 +37,13 @@ def main():
             st.session_state.messages=[
                 SystemMessage(content=customer_persona)
                 ]
+        with st.sidebar:
+                st.write(personaes.iloc[personae-1,:])
 
 
     if prompt := st.chat_input("Start your call with an introduction"):
         with st.sidebar:
                 st.write(st.session_state.messages)
-                st.write(personaes.iloc[personae-1,:])
         st.session_state.messages.append(HumanMessage(content=prompt))
         with st.spinner ("Thinking..."):
             response=chat(st.session_state.messages)
