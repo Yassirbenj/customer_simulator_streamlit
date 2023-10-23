@@ -33,7 +33,7 @@ def main():
         personaes=conn_pers.read(worksheet="personae")
         #personaes=pd.read_csv('data/personaes.csv',index_col='Personaes')
         #st.write(customer_persona)
-        personae=st.selectbox('Select your personae',personaes.index, key="personae")
+        personae=st.selectbox('Select your personae',personaes[0], key="personae")
         start=st.button('Start')
         if start:
             customer_persona=personaes.iloc[personae-1,-2]
