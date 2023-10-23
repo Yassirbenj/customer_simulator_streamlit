@@ -2,6 +2,7 @@ import streamlit as st
 
 
 
+st.header("HOME")
 
 st.set_page_config(page_title='Home')
 
