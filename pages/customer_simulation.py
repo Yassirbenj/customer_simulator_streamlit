@@ -36,7 +36,7 @@ def main():
         personae=st.selectbox('Select your personae',personaes.index, key="personae")
         start=st.button('Start')
         if start:
-            customer_persona=personaes.iloc[personae-1,-1]
+            customer_persona=personaes.iloc[personae-1,-2]
             st.session_state.messages=[
                 SystemMessage(content=customer_persona)
                 ]
