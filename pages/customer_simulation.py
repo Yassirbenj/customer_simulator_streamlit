@@ -38,6 +38,8 @@ def main():
                 SystemMessage(content=customer_persona)
                 ]
             st.session_state.industry=personaes.iloc[personae-1,1]
+            st.session_state.company_size=personaes.iloc[personae-1,2]
+            st.session_state.company_size=personaes.iloc[personae-1,2]
         with st.sidebar:
                 st.write(personaes.iloc[personae-1,:])
 
@@ -45,6 +47,7 @@ def main():
     if prompt := st.chat_input("Start your call with an introduction"):
         with st.sidebar:
                 st.write(f"Industry: {st.session_state.industry}")
+                st.write(f"Company size: {st.session_state.company_size}")
         st.session_state.messages.append(HumanMessage(content=prompt))
         with st.spinner ("Thinking..."):
             response=chat(st.session_state.messages)
