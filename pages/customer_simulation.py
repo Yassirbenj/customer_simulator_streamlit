@@ -67,58 +67,58 @@ def main():
             message(msg.content,is_user=False,key=str(i)+'_customer')
             discussion+=f"Customer: {msg.content}. "
 
+    if len(messages) > 5:
+        evaluate_button=st.button("Evaluate")
+        if evaluate_button:
+            if discussion=="":
+                st.write("No discussion to evaluate")
+            elif len(messages) <= 5:
+                st.write("The discussion is too short to be evaluated")
+            else:
+                context_coach= "You are a sales coach evaluating a discussion between a sales person and a customer."
+                context_coach+="give a feedback to the sales person on the good points and the major point to be improved in his conversation."
+                st.session_state.messages=[]
+                st.session_state.messages.append(SystemMessage(content=context_coach))
+                st.session_state.messages.append(HumanMessage(content=discussion))
+                with st.spinner ("Thinking..."):
+                    response=chat(st.session_state.messages)
+                    #good=parser(response.content)[0]
+                    #improve=parser(response.content)[1]
+                st.session_state.messages.append(AIMessage(content=response.content))
 
-    evaluate_button=st.button("Evaluate")
-    if evaluate_button:
-        if discussion=="":
-            st.write("No discussion to evaluate")
-        elif len(messages) <= 5:
-            st.write("The discussion is too short to be evaluated")
-        else:
-            context_coach= "You are a sales coach evaluating a discussion between a sales person and a customer."
-            context_coach+="give a feedback to the sales person on the good points and the major point to be improved in his conversation."
-            st.session_state.messages=[]
-            st.session_state.messages.append(SystemMessage(content=context_coach))
-            st.session_state.messages.append(HumanMessage(content=discussion))
-            with st.spinner ("Thinking..."):
-                response=chat(st.session_state.messages)
-                #good=parser(response.content)[0]
-                #improve=parser(response.content)[1]
-            st.session_state.messages.append(AIMessage(content=response.content))
+                messages_eval=st.session_state.get('messages',[])
 
-            messages_eval=st.session_state.get('messages',[])
+                for i,msg in enumerate(messages_eval[2:]):
+                    if i % 2 == 0:
+                        message(msg.content,is_user=False,key=str(i)+'_coach')
 
-            for i,msg in enumerate(messages_eval[2:]):
-                if i % 2 == 0:
-                    message(msg.content,is_user=False,key=str(i)+'_coach')
+                    else:
+                        message(msg.content,is_user=True,key=str(i)+'_candidate')
 
-                else:
-                    message(msg.content,is_user=True,key=str(i)+'_candidate')
+                # store results
+                st.cache_data.clear()
+                conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
+                df=conn.read()
+                last_index=df.iloc[-1,0]
 
-            # store results
-            st.cache_data.clear()
-            conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
-            df=conn.read()
-            last_index=df.iloc[-1,0]
+                #get current time
+                current_datetime = datetime.now()
 
-            #get current time
-            current_datetime = datetime.now()
+                data={
+                        "Index":[last_index+1],
+                        "User":[""],
+                        "Date":[current_datetime],
+                        #"Personae":[st.session_state.personae],
+                        "Discussion":[discussion],
+                        "Evaluation":[response.content],
+                        #"Good":[good],
+                        #"Improve":[improve]
+                    }
 
-            data={
-                    "Index":[last_index+1],
-                    "User":[""],
-                    "Date":[current_datetime],
-                    #"Personae":[st.session_state.personae],
-                    "Discussion":[discussion],
-                    "Evaluation":[response.content],
-                    #"Good":[good],
-                    #"Improve":[improve]
-                }
-
-            data_df=pd.DataFrame(data)
-            data_df_updated=pd.concat([df,data_df])
-            conn.update(worksheet="evals",data=data_df_updated)
-            st.write("Evaluation stored with success")
+                data_df=pd.DataFrame(data)
+                data_df_updated=pd.concat([df,data_df])
+                conn.update(worksheet="evals",data=data_df_updated)
+                st.write("Evaluation stored with success")
 
 
 def parser(evaluation):
