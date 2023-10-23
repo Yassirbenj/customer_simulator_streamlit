@@ -46,6 +46,7 @@ def main():
 
     if prompt := st.chat_input("Start your call with an introduction"):
         with st.sidebar:
+                st.write(f"Type of contact: Cold call")
                 st.write(f"Industry: {st.session_state.industry}")
                 st.write(f"Company size: {st.session_state.company_size}")
         st.session_state.messages.append(HumanMessage(content=prompt))
