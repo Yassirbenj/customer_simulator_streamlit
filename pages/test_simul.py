@@ -70,15 +70,15 @@ def main():
     if len(messages) > 5:
         evaluate_lang=st.button("Evaluate language")
         if evaluate_lang:
-            context="you are an English level assessor for the sales person"
+            context_lang="you are an English level assessor for the sales person"
             st.session_state.messages=[]
-            st.session_state.messages.append(SystemMessage(content=context))
+            st.session_state.messages.append(SystemMessage(content=context_lang))
             st.session_state.messages.append(HumanMessage(content=discussion))
             with st.spinner ("Thinking..."):
                 response=chat(st.session_state.messages)
             st.session_state.messages.append(AIMessage(content=response.content))
             messages_lang=st.session_state.get('messages',[])
-            for i,msg in enumerate(messages_eval[2:]):
+            for i,msg in enumerate(messages_lang[2:]):
                     if i % 2 == 0:
                         message(msg.content,is_user=False,key=str(i)+'_coach')
 
