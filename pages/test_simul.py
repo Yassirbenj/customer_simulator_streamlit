@@ -72,7 +72,7 @@ def main():
         if evaluate_lang:
             context="you are an English level assessor for the sales person"
             st.session_state.messages=[]
-            st.session_state.messages.append(SystemMessage(content=context_coach))
+            st.session_state.messages.append(SystemMessage(content=context))
             st.session_state.messages.append(HumanMessage(content=discussion))
             with st.spinner ("Thinking..."):
                 response=chat(st.session_state.messages)
