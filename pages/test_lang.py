@@ -70,7 +70,7 @@ def main():
     if len(messages) > 5:
         evaluate_lang=st.button("Evaluate language")
         if evaluate_lang:
-            context_lang="you are an English level assessor for the sales person"
+            context_lang="you show the mistakes in english that the sales person is making"
             st.session_state.messages=[]
             st.session_state.messages.append(SystemMessage(content=context_lang))
             st.session_state.messages.append(HumanMessage(content=discussion))
