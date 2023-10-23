@@ -37,13 +37,14 @@ def main():
             st.session_state.messages=[
                 SystemMessage(content=customer_persona)
                 ]
+            st.session_state.industry=personaes.iloc[personae-1,1]
         with st.sidebar:
                 st.write(personaes.iloc[personae-1,:])
 
 
     if prompt := st.chat_input("Start your call with an introduction"):
         with st.sidebar:
-                st.write(st.session_state.messages)
+                st.write(f"Industry: {st.session_state.industry}")
         st.session_state.messages.append(HumanMessage(content=prompt))
         with st.spinner ("Thinking..."):
             response=chat(st.session_state.messages)
