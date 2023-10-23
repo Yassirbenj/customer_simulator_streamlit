@@ -67,7 +67,7 @@ def main():
             message(msg.content,is_user=False,key=str(i)+'_customer')
             discussion+=f"Customer: {msg.content}. "
 
-    if len(messages) > 5:
+    if len(messages) > 1:
         evaluate_lang=st.button("Evaluate language")
         if evaluate_lang:
             context_lang="you show the mistakes in english that the sales person is making"
