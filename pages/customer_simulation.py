@@ -31,7 +31,7 @@ def main():
         st.cache_data.clear()
         conn_pers = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
         personaes=conn_pers.read(worksheet="personae")
-        st.write(personaes.iloc[:,0])
+        #st.write(personaes.iloc[:,0])
         #personaes=pd.read_csv('data/personaes.csv',index_col='Personaes')
         #st.write(customer_persona)
         personae=st.selectbox('Select your personae',personaes.iloc[:,0], key="personae")
@@ -45,7 +45,7 @@ def main():
             st.session_state.company_size=personaes.iloc[personae-1,2]
             st.session_state.company_size=personaes.iloc[personae-1,2]
         with st.sidebar:
-                st.write(personaes.iloc[personae-1,0:])
+                st.write(personaes.iloc[personae-1,:])
 
 
     if prompt := st.chat_input("Start your call with an introduction"):
