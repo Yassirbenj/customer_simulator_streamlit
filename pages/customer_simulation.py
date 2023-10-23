@@ -28,18 +28,19 @@ def main():
     chat=ChatOpenAI(temperature=0.5,openai_api_key=openai_api_key)
 
     if "messages" not in st.session_state:
+        st.session_state.messages=[]
         personaes=pd.read_csv('data/personaes.csv',index_col='Personaes')
         #st.write(customer_persona)
         personae=st.selectbox('Select your personae',personaes.index, key="personae")
-        with st.sidebar:
-                st.write(st.session_state.messages)
-                st.write(personaes.iloc[personae-1,:])
         start=st.button('Start')
         if start:
             customer_persona=personaes.iloc[personae-1,-1]
             st.session_state.messages=[
                 SystemMessage(content=customer_persona)
                 ]
+        with st.sidebar:
+                st.write(st.session_state.messages)
+                st.write(personaes.iloc[personae-1,:])
 
 
     if prompt := st.chat_input("Start your call with an introduction"):
