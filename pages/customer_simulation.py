@@ -31,7 +31,7 @@ def main():
         st.cache_data.clear()
         conn_pers = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
         personaes=conn_pers.read(worksheet="personae")
-        st.write(personaes)
+        st.write(personaes[:,0])
         #personaes=pd.read_csv('data/personaes.csv',index_col='Personaes')
         #st.write(customer_persona)
         personae=st.selectbox('Select your personae',personaes.index, key="personae")
