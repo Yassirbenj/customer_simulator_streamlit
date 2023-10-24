@@ -93,10 +93,18 @@ def main():
                 st.session_state.messages.append(SystemMessage(content=context_coach))
                 st.session_state.messages.append(HumanMessage(content=discussion))
                 with st.spinner ("Thinking..."):
-                    response=chat(st.session_state.messages)
+                    with get_openai_callback() as cb:
+                        response=chat(st.session_state.messages)
+                        st.session_state.cost=round(cb.total_cost,5)
                     #good=parser(response.content)[0]
                     #improve=parser(response.content)[1]
-                st.session_state.messages.append(AIMessage(content=response.content))
+                with st.sidebar:
+                    st.write(f"Type of contact: Cold call")
+                    st.write(f"Industry: {st.session_state.industry}")
+                    st.write(f"Position: {st.session_state.position}")
+                    st.write(f"Company size: {st.session_state.company_size}")
+                    st.write(f"Total Cost (USD): {st.session_state.cost}")
+                    st.session_state.messages.append(AIMessage(content=response.content))
 
                 messages_eval=st.session_state.get('messages',[])
 
