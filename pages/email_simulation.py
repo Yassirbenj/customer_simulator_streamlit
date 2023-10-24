@@ -37,7 +37,7 @@ def main():
         personae=st.selectbox('Select your personae',personaes.iloc[:,0], key="personae")
         start=st.button('Start')
         if start:
-            customer_persona=personaes.iloc[personae-1,-2]
+            customer_persona=personaes.iloc[personae-1,-1]
             st.session_state.messages=[
                 SystemMessage(content=customer_persona)
                 ]
@@ -47,9 +47,9 @@ def main():
                 st.write(personaes.iloc[personae-1,:])
 
 
-    if prompt := st.chat_input("Start your call with an introduction"):
+    if prompt := st.chat_input("Write an introduction email"):
         with st.sidebar:
-                st.write(f"Type of contact: Cold call")
+                st.write(f"Type of contact: Cold email")
                 st.write(f"Industry: {st.session_state.industry}")
                 st.write(f"Company size: {st.session_state.company_size}")
         st.session_state.messages.append(HumanMessage(content=prompt))
