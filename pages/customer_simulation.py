@@ -28,12 +28,16 @@ def main():
     chat=ChatOpenAI(temperature=0.5,openai_api_key=openai_api_key)
 
     if "messages" not in st.session_state:
-        personaes=pd.read_csv('data/personaes.csv',index_col='Personaes')
+        st.cache_data.clear()
+        conn_pers = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
+        personaes=conn_pers.read(worksheet="personae")
+        #st.write(personaes.iloc[:,0])
+        #personaes=pd.read_csv('data/personaes.csv',index_col='Personaes')
         #st.write(customer_persona)
-        personae=st.selectbox('Select your personae',personaes.index, key="personae")
+        personae=st.selectbox('Select your personae',personaes.iloc[:,0], key="personae")
         start=st.button('Start')
         if start:
-            customer_persona=personaes.iloc[personae-1,-1]
+            customer_persona=personaes.iloc[personae-1,-2]
             st.session_state.messages=[
                 SystemMessage(content=customer_persona)
                 ]
