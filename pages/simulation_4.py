@@ -63,7 +63,7 @@ def main():
         with st.spinner ("Thinking..."):
             with get_openai_callback() as cb:
                 response=chat(st.session_state.messages)
-                st.session_state.cost=round(cb.total_cost,2)
+                st.session_state.cost=round(cb.total_cost,5)
         st.session_state.messages.append(AIMessage(content=response.content))
 
     messages=st.session_state.get('messages',[])
