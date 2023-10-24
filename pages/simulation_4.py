@@ -59,7 +59,8 @@ def main():
         with st.spinner ("Thinking..."):
             with get_openai_callback() as cb:
                 response=chat(st.session_state.messages)
-                print(f"Total Cost (USD): ${cb.total_cost}")
+                with st.sidebar:
+                    st.write(f"Total Cost (USD): ${cb.total_cost}")
         st.session_state.messages.append(AIMessage(content=response.content))
 
     messages=st.session_state.get('messages',[])
