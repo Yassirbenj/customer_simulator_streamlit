@@ -48,99 +48,98 @@ def main():
             st.session_state.position=personaes.iloc[personae-1,2]
             st.session_state.company_size=personaes.iloc[personae-1,3]
             st.session_state.cost=0
-            prompt = st.chat_input("Start your call with an introduction")
         with st.sidebar:
                 st.write(personaes.iloc[personae-1,:])
 
-    else:
-        prompt = st.chat_input("Continue discussion")
-        if prompt :
-            with st.sidebar:
+
+    prompt = st.chat_input("Continue discussion")
+    if prompt :
+        with st.sidebar:
+                st.write(f"Type of contact: Cold call")
+                st.write(f"Industry: {st.session_state.industry}")
+                st.write(f"Position: {st.session_state.position}")
+                st.write(f"Company size: {st.session_state.company_size}")
+                st.write(f"Total Cost (USD): {st.session_state.cost}")
+        st.session_state.messages.append(HumanMessage(content=prompt))
+        with st.spinner ("Thinking..."):
+            with get_openai_callback() as cb:
+                response=chat(st.session_state.messages)
+                st.session_state.cost=round(cb.total_cost,5)
+        st.session_state.messages.append(AIMessage(content=response.content))
+
+    messages=st.session_state.get('messages',[])
+    discussion=""
+
+    #st.write(messages)
+
+    for i,msg in enumerate(messages[1:]):
+        if i % 2 == 0:
+            message(msg.content,is_user=True,key=str(i)+'_saleperson')
+            discussion+=f"Sale person: {msg.content}. "
+        else:
+            message(msg.content,is_user=False,key=str(i)+'_customer')
+            discussion+=f"Customer: {msg.content}. "
+
+    if len(messages) > 5:
+        evaluate_button=st.button("Evaluate")
+        if evaluate_button:
+            if discussion=="":
+                st.write("No discussion to evaluate")
+            elif len(messages) <= 5:
+                st.write("The discussion is too short to be evaluated")
+            else:
+                context_coach= "You are a sales coach evaluating a discussion between a sales person and a customer."
+                context_coach+="give a feedback to the sales person on the good points and the major point to be improved in his conversation."
+                st.session_state.messages=[]
+                st.session_state.messages.append(SystemMessage(content=context_coach))
+                st.session_state.messages.append(HumanMessage(content=discussion))
+                with st.spinner ("Thinking..."):
+                    with get_openai_callback() as cb:
+                        response=chat(st.session_state.messages)
+                        st.session_state.cost=round(cb.total_cost,5)
+                    #good=parser(response.content)[0]
+                    #improve=parser(response.content)[1]
+                with st.sidebar:
                     st.write(f"Type of contact: Cold call")
                     st.write(f"Industry: {st.session_state.industry}")
                     st.write(f"Position: {st.session_state.position}")
                     st.write(f"Company size: {st.session_state.company_size}")
                     st.write(f"Total Cost (USD): {st.session_state.cost}")
-            st.session_state.messages.append(HumanMessage(content=prompt))
-            with st.spinner ("Thinking..."):
-                with get_openai_callback() as cb:
-                    response=chat(st.session_state.messages)
-                    st.session_state.cost=round(cb.total_cost,5)
-            st.session_state.messages.append(AIMessage(content=response.content))
+                    st.session_state.messages.append(AIMessage(content=response.content))
 
-        messages=st.session_state.get('messages',[])
-        discussion=""
+                messages_eval=st.session_state.get('messages',[])
 
-        #st.write(messages)
+                for i,msg in enumerate(messages_eval[2:]):
+                    if i % 2 == 0:
+                        message(msg.content,is_user=False,key=str(i)+'_coach')
 
-        for i,msg in enumerate(messages[1:]):
-            if i % 2 == 0:
-                message(msg.content,is_user=True,key=str(i)+'_saleperson')
-                discussion+=f"Sale person: {msg.content}. "
-            else:
-                message(msg.content,is_user=False,key=str(i)+'_customer')
-                discussion+=f"Customer: {msg.content}. "
+                    else:
+                        message(msg.content,is_user=True,key=str(i)+'_candidate')
 
-        if len(messages) > 5:
-            evaluate_button=st.button("Evaluate")
-            if evaluate_button:
-                if discussion=="":
-                    st.write("No discussion to evaluate")
-                elif len(messages) <= 5:
-                    st.write("The discussion is too short to be evaluated")
-                else:
-                    context_coach= "You are a sales coach evaluating a discussion between a sales person and a customer."
-                    context_coach+="give a feedback to the sales person on the good points and the major point to be improved in his conversation."
-                    st.session_state.messages=[]
-                    st.session_state.messages.append(SystemMessage(content=context_coach))
-                    st.session_state.messages.append(HumanMessage(content=discussion))
-                    with st.spinner ("Thinking..."):
-                        with get_openai_callback() as cb:
-                            response=chat(st.session_state.messages)
-                            st.session_state.cost=round(cb.total_cost,5)
-                        #good=parser(response.content)[0]
-                        #improve=parser(response.content)[1]
-                    with st.sidebar:
-                        st.write(f"Type of contact: Cold call")
-                        st.write(f"Industry: {st.session_state.industry}")
-                        st.write(f"Position: {st.session_state.position}")
-                        st.write(f"Company size: {st.session_state.company_size}")
-                        st.write(f"Total Cost (USD): {st.session_state.cost}")
-                        st.session_state.messages.append(AIMessage(content=response.content))
+                # store results
+                st.cache_data.clear()
+                conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
+                df=conn.read()
+                last_index=df.iloc[-1,0]
 
-                    messages_eval=st.session_state.get('messages',[])
+                #get current time
+                current_datetime = datetime.now()
 
-                    for i,msg in enumerate(messages_eval[2:]):
-                        if i % 2 == 0:
-                            message(msg.content,is_user=False,key=str(i)+'_coach')
+                data={
+                        "Index":[last_index+1],
+                        "User":[""],
+                        "Date":[current_datetime],
+                        #"Personae":[st.session_state.personae],
+                        "Discussion":[discussion],
+                        "Evaluation":[response.content],
+                        #"Good":[good],
+                        #"Improve":[improve]
+                    }
 
-                        else:
-                            message(msg.content,is_user=True,key=str(i)+'_candidate')
-
-                    # store results
-                    st.cache_data.clear()
-                    conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
-                    df=conn.read()
-                    last_index=df.iloc[-1,0]
-
-                    #get current time
-                    current_datetime = datetime.now()
-
-                    data={
-                            "Index":[last_index+1],
-                            "User":[""],
-                            "Date":[current_datetime],
-                            #"Personae":[st.session_state.personae],
-                            "Discussion":[discussion],
-                            "Evaluation":[response.content],
-                            #"Good":[good],
-                            #"Improve":[improve]
-                        }
-
-                    data_df=pd.DataFrame(data)
-                    data_df_updated=pd.concat([df,data_df])
-                    conn.update(worksheet="evals",data=data_df_updated)
-                    st.write("Evaluation stored with success")
+                data_df=pd.DataFrame(data)
+                data_df_updated=pd.concat([df,data_df])
+                conn.update(worksheet="evals",data=data_df_updated)
+                st.write("Evaluation stored with success")
 
 
 def parser(evaluation):
