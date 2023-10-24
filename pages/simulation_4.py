@@ -5,6 +5,8 @@ from langchain.schema import (
     HumanMessage,
     SystemMessage
 )
+from langchain.callbacks import get_openai_callback
+
 #import os
 #from dotenv import load_dotenv
 import streamlit as st
@@ -12,6 +14,7 @@ from streamlit_chat import message
 import pandas as pd
 from streamlit_gsheets import GSheetsConnection
 from datetime import datetime
+
 
 #from langchain.output_parsers import PydanticOutputParser
 #from pydantic import BaseModel, Field, validator
@@ -54,7 +57,9 @@ def main():
                 st.write(f"Company size: {st.session_state.company_size}")
         st.session_state.messages.append(HumanMessage(content=prompt))
         with st.spinner ("Thinking..."):
-            response=chat(st.session_state.messages)
+            with get_openai_callback() as cb:
+                response=chat(st.session_state.messages)
+                print(f"Total Cost (USD): ${cb.total_cost}")
         st.session_state.messages.append(AIMessage(content=response.content))
 
     messages=st.session_state.get('messages',[])
