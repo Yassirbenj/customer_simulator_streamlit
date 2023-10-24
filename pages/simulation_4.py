@@ -52,8 +52,7 @@ def main():
                 st.write(personaes.iloc[personae-1,:])
 
 
-    prompt = st.chat_input("Continue discussion")
-    if prompt :
+    if prompt := st.chat_input("Start your call with an introduction"):
         with st.sidebar:
                 st.write(f"Type of contact: Cold call")
                 st.write(f"Industry: {st.session_state.industry}")
