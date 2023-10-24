@@ -46,6 +46,7 @@ def main():
                 ]
             st.session_state.industry=personaes.iloc[personae-1,1]
             st.session_state.company_size=personaes.iloc[personae-1,2]
+            st.session_state.cost=0
         with st.sidebar:
                 st.write(personaes.iloc[personae-1,:])
 
@@ -55,14 +56,13 @@ def main():
                 st.write(f"Type of contact: Cold call")
                 st.write(f"Industry: {st.session_state.industry}")
                 st.write(f"Company size: {st.session_state.company_size}")
+                st.write(f"Total Cost2 (USD): ${st.session_state.cost}")
         st.session_state.messages.append(HumanMessage(content=prompt))
         with st.spinner ("Thinking..."):
             with get_openai_callback() as cb:
                 response=chat(st.session_state.messages)
+                st.session_state.cost=cb.total_cost
         st.session_state.messages.append(AIMessage(content=response.content))
-
-    with st.sidebar:
-        st.write(f"Total Cost2 (USD): ${cb.total_cost}")
 
     messages=st.session_state.get('messages',[])
     discussion=""
