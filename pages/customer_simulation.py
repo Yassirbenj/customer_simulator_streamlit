@@ -80,12 +80,6 @@ def main():
     if len(messages) > 5:
         evaluate_button=st.button("Evaluate")
         if evaluate_button:
-            with st.sidebar:
-                st.write(f"Type of contact: Cold call")
-                st.write(f"Industry: {st.session_state.industry}")
-                st.write(f"Position: {st.session_state.position}")
-                st.write(f"Company size: {st.session_state.company_size}")
-                st.write(f"Total Cost (USD): {st.session_state.cost}")
             if discussion=="":
                 st.write("No discussion to evaluate")
             elif len(messages) <= 5:
@@ -102,7 +96,13 @@ def main():
                         st.session_state.cost=round(cb.total_cost,5)
                     #good=parser(response.content)[0]
                     #improve=parser(response.content)[1]
-                st.session_state.messages.append(AIMessage(content=response.content))
+                with st.sidebar:
+                    st.write(f"Type of contact: Cold call")
+                    st.write(f"Industry: {st.session_state.industry}")
+                    st.write(f"Position: {st.session_state.position}")
+                    st.write(f"Company size: {st.session_state.company_size}")
+                    st.write(f"Total Cost (USD): {st.session_state.cost}")
+                    st.session_state.messages.append(AIMessage(content=response.content))
 
                 messages_eval=st.session_state.get('messages',[])
 
