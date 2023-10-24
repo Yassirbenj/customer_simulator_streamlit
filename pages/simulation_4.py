@@ -58,7 +58,7 @@ def main():
                 st.write(f"Industry: {st.session_state.industry}")
                 st.write(f"Position: {st.session_state.position}")
                 st.write(f"Company size: {st.session_state.company_size}")
-                st.write(f"Total Cost2 (USD): {st.session_state.cost}")
+                st.write(f"Total Cost (USD): {st.session_state.cost}")
         st.session_state.messages.append(HumanMessage(content=prompt))
         with st.spinner ("Thinking..."):
             with get_openai_callback() as cb:
