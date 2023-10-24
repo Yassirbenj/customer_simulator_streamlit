@@ -48,11 +48,12 @@ def main():
             st.session_state.position=personaes.iloc[personae-1,2]
             st.session_state.company_size=personaes.iloc[personae-1,3]
             st.session_state.cost=0
+            prompt = st.chat_input("Start your call with an introduction")
         with st.sidebar:
                 st.write(personaes.iloc[personae-1,:])
 
     else:
-        prompt = st.chat_input("Start your call with an introduction")
+        prompt = st.chat_input("Continue discussion")
         if prompt :
             with st.sidebar:
                     st.write(f"Type of contact: Cold call")
