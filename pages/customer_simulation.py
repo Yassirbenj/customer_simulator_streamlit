@@ -91,7 +91,9 @@ def main():
                 st.session_state.messages.append(SystemMessage(content=context_coach))
                 st.session_state.messages.append(HumanMessage(content=discussion))
                 with st.spinner ("Thinking..."):
-                    response=chat(st.session_state.messages)
+                    with get_openai_callback() as cb:
+                        response=chat(st.session_state.messages)
+                        st.session_state.cost=round(cb.total_cost,5)
                     #good=parser(response.content)[0]
                     #improve=parser(response.content)[1]
                 st.session_state.messages.append(AIMessage(content=response.content))
