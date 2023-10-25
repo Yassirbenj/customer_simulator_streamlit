@@ -6,6 +6,6 @@ openai_api_key = st.secrets["openai"]
 
 audio_bytes = audio_recorder(energy_threshold=0.01,pause_threshold=2)
 if audio_bytes:
-    st.audio(audio_bytes, format="audio/wav")
-    transcript = openai.Audio.transcribe(model="whisper-1",file=audio_bytes, openai_api_key=openai_api_key,)
+    audio_wav=st.audio(audio_bytes, format="audio/wav")
+    transcript = openai.Audio.transcribe(model="whisper-1",file=audio_wav, openai_api_key=openai_api_key,)
     st.write(transcript.text)
