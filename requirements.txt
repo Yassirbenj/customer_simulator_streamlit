@@ -7,3 +7,4 @@ datetime
 streamlit_authenticator
 openai
 audio-recorder-streamlit
+SpeechRecognition
