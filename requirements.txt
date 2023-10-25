@@ -6,3 +6,4 @@ st-gsheets-connection
 datetime
 streamlit_authenticator
 openai
+audio-recorder-streamlit
