@@ -14,7 +14,7 @@ if audio_bytes:
     st.audio(audio_bytes, format="audio/wav")
 
     # Create a temporary WAV file
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_wav:
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as temp_wav:
         temp_wav.write(audio_bytes)
         transcript = openai.Audio.transcribe(model="whisper-1", file=temp_wav, api_key=openai_api_key)
         st.write(transcript.text)
