@@ -9,3 +9,4 @@ openai
 audio-recorder-streamlit
 SpeechRecognition
 PyAudio
+io
