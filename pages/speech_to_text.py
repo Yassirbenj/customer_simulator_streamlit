@@ -16,13 +16,14 @@ if audio_bytes:
     # Create a temporary WAV file
     with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_wav:
         temp_wav.write(audio_bytes)
+        transcript = openai.Audio.transcribe(model="whisper-1", file=temp_wav, api_key=openai_api_key)
+        st.write(transcript.text)
 
     # Get the filename of the temporary WAV file
-    wav_filename = temp_wav.name
+    #wav_filename = temp_wav.name
 
     # Transcribe using OpenAI
-    transcript = openai.Audio.transcribe(model="whisper-1", file=temp_wav, api_key=openai_api_key)
-    st.write(transcript.text)
+
 
     # Close and remove the temporary file
     temp_wav.close()
