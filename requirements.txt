@@ -8,5 +8,4 @@ streamlit_authenticator
 openai
 audio-recorder-streamlit
 SpeechRecognition
-io
 pydub
