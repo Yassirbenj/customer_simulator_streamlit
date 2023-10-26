@@ -2,7 +2,6 @@ import streamlit as st
 from audio_recorder_streamlit import audio_recorder
 import openai
 import speech_recognition as sr
-import io
 import tempfile
 
 r = sr.Recognizer()
@@ -22,7 +21,7 @@ if audio_bytes:
     wav_filename = temp_wav.name
 
     # Transcribe using OpenAI
-    transcript = openai.Audio.transcribe(model="whisper-1", file=wav_filename, api_key=openai_api_key)
+    transcript = openai.Audio.transcribe(model="whisper-1", file=temp_wav, api_key=openai_api_key)
     st.write(transcript.text)
 
     # Close and remove the temporary file
