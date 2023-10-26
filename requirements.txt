@@ -10,4 +10,4 @@ audio-recorder-streamlit
 SpeechRecognition
 PyAudio
 io
-pydub ffmpeg-python
+pydub
