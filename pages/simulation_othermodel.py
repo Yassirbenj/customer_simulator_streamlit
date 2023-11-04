@@ -26,9 +26,9 @@ st.set_page_config(page_title="Customer simulator ")
 st.header("Customer simulator")
 
 def main():
-    #openai_api_key = st.secrets["openai"]
+    cohere_api_key = st.secrets["cohere"]
 
-    chat=ChatCohere()
+    chat=ChatCohere(COHERE_API_KEY=cohere_api_key)
 
     if "messages" not in st.session_state:
         st.cache_data.clear()
