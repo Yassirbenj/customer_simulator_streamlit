@@ -1,4 +1,4 @@
-from langchain.chat_models import ChatAnthropic
+from langchain.chat_models import ChatCohere
 from langchain.llms import OpenAI
 from langchain.schema import (
     AIMessage,
@@ -28,7 +28,7 @@ st.header("Customer simulator")
 def main():
     #openai_api_key = st.secrets["openai"]
 
-    chat=ChatAnthropic()
+    chat=ChatCohere()
 
     if "messages" not in st.session_state:
         st.cache_data.clear()
