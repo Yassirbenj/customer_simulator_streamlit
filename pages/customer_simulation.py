@@ -6,6 +6,8 @@ from langchain.schema import (
     SystemMessage
 )
 from langchain.callbacks import get_openai_callback
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
 #import os
 #from dotenv import load_dotenv
 import streamlit as st
@@ -129,8 +131,6 @@ def main():
                         #"Personae":[st.session_state.personae],
                         "Discussion":[discussion],
                         "Evaluation":[response.content],
-                        #"Good":[good],
-                        #"Improve":[improve]
                     }
 
                 data_df=pd.DataFrame(data)
