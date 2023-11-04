@@ -29,7 +29,9 @@ def recap():
         prompt = PromptTemplate(template=template, input_variables=["question"])
         llm_chain = LLMChain(prompt=prompt, llm=llm)
         response=llm_chain.run(discussion)
+        st.title("Recap of the discussion")
         st.write(response)
+    return response
 
 
 #def reset_conversation():
