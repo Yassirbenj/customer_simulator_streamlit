@@ -88,6 +88,7 @@ def main():
                 st.write("The discussion is too short to be evaluated")
             else:
                 recap_response=recap(discussion)
+                st.title("Evaluation")
                 context_coach= "You are a sales coach evaluating a discussion between a sales person and a customer."
                 context_coach+="give a feedback to the sales person on the good points and the major point to be improved in his conversation."
                 st.session_state.messages=[]

@@ -6,6 +6,8 @@ from langchain.schema import (
     SystemMessage
 )
 from langchain.callbacks import get_openai_callback
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
 
 #import os
 #from dotenv import load_dotenv
@@ -87,6 +89,8 @@ def main():
             elif len(messages) <= 5:
                 st.write("The discussion is too short to be evaluated")
             else:
+                recap_response=recap(discussion)
+                st.title("Evaluation")
                 context_coach= "You are a sales coach evaluating a discussion between a sales person and a customer."
                 context_coach+="give a feedback to the sales person on the good points and the major point to be improved in his conversation."
                 st.session_state.messages=[]
@@ -150,6 +154,16 @@ def parser(evaluation):
 
     return good,improve
 
+def recap(discussion):
+    openai_api_key = st.secrets["openai"]
+    llm=OpenAI(openai_api_key=openai_api_key)
+    template = """Question: summarize the discussion between customer and sales person based on following discussion {question} """
+    prompt = PromptTemplate(template=template, input_variables=["question"])
+    llm_chain = LLMChain(prompt=prompt, llm=llm)
+    response=llm_chain.run(discussion)
+    st.title("Recap of the discussion")
+    st.write(response)
+    return response
 
 #def reset_conversation():
     #st.write(st.session_state.messages)
