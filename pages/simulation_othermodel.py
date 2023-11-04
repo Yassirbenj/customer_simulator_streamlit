@@ -28,7 +28,7 @@ st.header("Customer simulator")
 def main():
     cohere_api_key = st.secrets["cohere"]
 
-    chat=ChatCohere(COHERE_API_KEY=cohere_api_key)
+    chat=ChatCohere(COHERE_API_KEY="NXIPPS1ZdYhOnaMUERjjgVuU6RGSzBFImxLhW3Ss")
 
     if "messages" not in st.session_state:
         st.cache_data.clear()
