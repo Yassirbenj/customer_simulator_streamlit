@@ -21,13 +21,15 @@ from datetime import datetime
 
 def recap():
     discussion=st.text_area("enter discussion")
-    openai_api_key = st.secrets["openai"]
-    llm=OpenAI(openai_api_key=openai_api_key)
-    template = """Question: summarize the discussion between customer and sales person based on following discussion {question} """
-    prompt = PromptTemplate(template=template, input_variables=["question"])
-    llm_chain = LLMChain(prompt=prompt, llm=llm)
-    response=llm_chain.run(discussion)
-    st.write(response)
+    start=st.button("start")
+    if start:
+        openai_api_key = st.secrets["openai"]
+        llm=OpenAI(openai_api_key=openai_api_key)
+        template = """Question: summarize the discussion between customer and sales person based on following discussion {question} """
+        prompt = PromptTemplate(template=template, input_variables=["question"])
+        llm_chain = LLMChain(prompt=prompt, llm=llm)
+        response=llm_chain.run(discussion)
+        st.write(response)
 
 
 #def reset_conversation():
