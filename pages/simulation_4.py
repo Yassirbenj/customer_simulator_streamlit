@@ -6,6 +6,7 @@ from langchain.schema import (
     SystemMessage
 )
 from langchain.callbacks import get_openai_callback
+
 #import os
 #from dotenv import load_dotenv
 import streamlit as st
@@ -13,6 +14,7 @@ from streamlit_chat import message
 import pandas as pd
 from streamlit_gsheets import GSheetsConnection
 from datetime import datetime
+
 
 #from langchain.output_parsers import PydanticOutputParser
 #from pydantic import BaseModel, Field, validator
@@ -26,7 +28,7 @@ st.header("Customer simulator")
 def main():
     openai_api_key = st.secrets["openai"]
 
-    chat=ChatOpenAI(temperature=0.5,openai_api_key=openai_api_key)
+    chat=ChatOpenAI(model_name='gpt-4',temperature=0.5,openai_api_key=openai_api_key)
 
     if "messages" not in st.session_state:
         st.cache_data.clear()
