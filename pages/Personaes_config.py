@@ -19,7 +19,7 @@ if update:
     df['customer_persona'] += " The main pain points in your business are "+ df['Customer pain points'] +"."
     df['customer_persona'] += " your decision making factors are " + df['Decision factors'] +"."
     df['customer_persona'] += " your main personality trait are "+ df['Key personality traits'] +"."
-    df['customer_persona'] += " you respond briefly to the question. you are a customer not an assistant "
+    df['customer_persona'] += " you respond briefly to the questions. you do not easily disclose your needs and expectations. you are a customer not an assistant "
 
     df['email_persona']="You are a customer responding to an email from a sales person. "
     df['email_persona']+="You are in the industry of "+ df['Customer industry'] + "."
