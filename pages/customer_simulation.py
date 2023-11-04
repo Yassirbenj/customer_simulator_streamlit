@@ -26,9 +26,8 @@ st.header("Customer simulator")
 def main():
     openai_api_key = st.secrets["openai"]
 
-    chat=ChatOpenAI(temperature=0.5,openai_api_key=openai_api_key)
-
     if "messages" not in st.session_state:
+        chat=ChatOpenAI(temperature=0.5,openai_api_key=openai_api_key)
         st.cache_data.clear()
         conn_pers = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
         personaes=conn_pers.read(worksheet="personae")
