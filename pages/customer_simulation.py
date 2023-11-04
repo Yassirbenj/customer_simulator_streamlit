@@ -88,35 +88,34 @@ def main():
                 st.write("The discussion is too short to be evaluated")
             else:
                 recap_response=recap(discussion)
-                st.title("Evaluation")
                 evaluation_response=evaluate(discussion)
-                context_coach= "You are a sales coach evaluating a discussion between a sales person and a customer."
-                context_coach+="give a feedback to the sales person on the good points and the major point to be improved in his conversation."
-                st.session_state.messages=[]
-                st.session_state.messages.append(SystemMessage(content=context_coach))
-                st.session_state.messages.append(HumanMessage(content=discussion))
-                with st.spinner ("Thinking..."):
-                    with get_openai_callback() as cb:
-                        response=chat(st.session_state.messages)
-                        st.session_state.cost=round(cb.total_cost,5)
+                #context_coach= "You are a sales coach evaluating a discussion between a sales person and a customer."
+                #context_coach+="give a feedback to the sales person on the good points and the major point to be improved in his conversation."
+                #st.session_state.messages=[]
+                #st.session_state.messages.append(SystemMessage(content=context_coach))
+                #st.session_state.messages.append(HumanMessage(content=discussion))
+                #with st.spinner ("Thinking..."):
+                #    with get_openai_callback() as cb:
+                #        response=chat(st.session_state.messages)
+                #        st.session_state.cost=round(cb.total_cost,5)
                     #good=parser(response.content)[0]
                     #improve=parser(response.content)[1]
-                with st.sidebar:
-                    st.write(f"Type of contact: Cold call")
-                    st.write(f"Industry: {st.session_state.industry}")
-                    st.write(f"Position: {st.session_state.position}")
-                    st.write(f"Company size: {st.session_state.company_size}")
-                    st.write(f"Total Cost (USD): {st.session_state.cost}")
-                    st.session_state.messages.append(AIMessage(content=response.content))
+                #with st.sidebar:
+                #    st.write(f"Type of contact: Cold call")
+                #    st.write(f"Industry: {st.session_state.industry}")
+                #    st.write(f"Position: {st.session_state.position}")
+                #    st.write(f"Company size: {st.session_state.company_size}")
+                #    st.write(f"Total Cost (USD): {st.session_state.cost}")
+                #    st.session_state.messages.append(AIMessage(content=response.content))
 
-                messages_eval=st.session_state.get('messages',[])
+                #messages_eval=st.session_state.get('messages',[])
 
-                for i,msg in enumerate(messages_eval[2:]):
-                    if i % 2 == 0:
-                        message(msg.content,is_user=False,key=str(i)+'_coach')
+                #for i,msg in enumerate(messages_eval[2:]):
+                #    if i % 2 == 0:
+                #        message(msg.content,is_user=False,key=str(i)+'_coach')
 
-                    else:
-                        message(msg.content,is_user=True,key=str(i)+'_candidate')
+                #    else:
+                #        message(msg.content,is_user=True,key=str(i)+'_candidate')
 
                 # store results
                 st.cache_data.clear()
@@ -133,7 +132,7 @@ def main():
                         "Date":[current_datetime],
                         #"Personae":[st.session_state.personae],
                         "Discussion":[discussion],
-                        "Evaluation":[response.content],
+                        "Evaluation":[evaluation_response],
                         "Recap":[recap_response]
                     }
 
