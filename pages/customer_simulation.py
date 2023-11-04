@@ -22,12 +22,13 @@ from datetime import datetime
 
 st.set_page_config(page_title="Customer simulator ")
 st.header("Customer simulator")
+openai_api_key = st.secrets["openai"]
+chat=ChatOpenAI(temperature=0.5,openai_api_key=openai_api_key)
 
 def main():
-    openai_api_key = st.secrets["openai"]
+
 
     if "messages" not in st.session_state:
-        chat=ChatOpenAI(temperature=0.5,openai_api_key=openai_api_key)
         st.cache_data.clear()
         conn_pers = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
         personaes=conn_pers.read(worksheet="personae")
