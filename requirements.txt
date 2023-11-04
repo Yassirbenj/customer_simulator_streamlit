@@ -10,3 +10,4 @@ audio-recorder-streamlit
 SpeechRecognition
 pydub
 ffmpeg-python
+cohere
