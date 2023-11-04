@@ -60,10 +60,8 @@ def main():
                 st.write(f"Company size: {st.session_state.company_size}")
                 st.write(f"Total Cost (USD): {st.session_state.cost}")
         st.session_state.messages.append(HumanMessage(content=prompt))
-        #with st.spinner ("Thinking..."):
-            #with get_openai_callback() as cb:
-            #    response=chat(st.session_state.messages)
-            #    st.session_state.cost=round(cb.total_cost,5)
+        with st.spinner ("Thinking..."):
+                response=chat(st.session_state.messages)
         st.session_state.messages.append(AIMessage(content=response.content))
 
     messages=st.session_state.get('messages',[])
