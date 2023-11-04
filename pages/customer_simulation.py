@@ -89,6 +89,7 @@ def main():
             else:
                 recap_response=recap(discussion)
                 st.title("Evaluation")
+                evaluation_response=evaluate(discussion)
                 context_coach= "You are a sales coach evaluating a discussion between a sales person and a customer."
                 context_coach+="give a feedback to the sales person on the good points and the major point to be improved in his conversation."
                 st.session_state.messages=[]
@@ -159,6 +160,17 @@ def recap(discussion):
     llm_chain = LLMChain(prompt=prompt, llm=llm)
     response=llm_chain.run(discussion)
     st.title("Recap of the discussion")
+    st.write(response)
+    return response
+
+def evaluate(discussion):
+    openai_api_key = st.secrets["openai"]
+    llm=OpenAI(openai_api_key=openai_api_key)
+    template = """Question: evaluating a discussion between a sales person and a customer based on following discussion {question}. give a feedback to the sales person on the good points and the major point to be improved """
+    prompt = PromptTemplate(template=template, input_variables=["question"])
+    llm_chain = LLMChain(prompt=prompt, llm=llm)
+    response=llm_chain.run(discussion)
+    st.title("Evaluation of the discussion")
     st.write(response)
     return response
 
