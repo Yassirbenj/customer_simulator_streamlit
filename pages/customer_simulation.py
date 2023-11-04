@@ -87,7 +87,7 @@ def main():
             elif len(messages) <= 5:
                 st.write("The discussion is too short to be evaluated")
             else:
-                recap=recap(discussion)
+                recap_response=recap(discussion)
                 context_coach= "You are a sales coach evaluating a discussion between a sales person and a customer."
                 context_coach+="give a feedback to the sales person on the good points and the major point to be improved in his conversation."
                 st.session_state.messages=[]
@@ -132,7 +132,7 @@ def main():
                         #"Personae":[st.session_state.personae],
                         "Discussion":[discussion],
                         "Evaluation":[response.content],
-                        "Recap":[recap]
+                        "Recap":[recap_response]
                     }
 
                 data_df=pd.DataFrame(data)

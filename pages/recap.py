@@ -31,7 +31,7 @@ def recap():
         response=llm_chain.run(discussion)
         st.title("Recap of the discussion")
         st.write(response)
-    return response
+        return response
 
 
 #def reset_conversation():
