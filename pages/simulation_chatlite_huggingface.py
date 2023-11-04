@@ -26,9 +26,9 @@ st.set_page_config(page_title="Customer simulator ")
 st.header("Customer simulator")
 
 def main():
-    #cohere_api_key = st.secrets["cohere"]
+    key = st.secrets["hugging"]
 
-    chat=ChatLiteLLM(model="huggingface/facebook/blenderbot-400M-distill",huggingface_api_key="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")
+    chat=ChatLiteLLM(model="huggingface/facebook/blenderbot-400M-distill",huggingface_api_key=key)
 
     if "messages" not in st.session_state:
         st.cache_data.clear()
