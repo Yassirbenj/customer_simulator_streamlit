@@ -47,6 +47,7 @@ def main():
             st.session_state.industry=personaes.iloc[personae-1,1]
             st.session_state.position=personaes.iloc[personae-1,2]
             st.session_state.company_size=personaes.iloc[personae-1,3]
+            st.session_state.personae=personaes.iloc[personae-1,0]
             st.session_state.cost=0
         with st.sidebar:
                 st.write(personaes.iloc[personae-1,:-2])
@@ -130,7 +131,7 @@ def main():
                         "Index":[last_index+1],
                         "User":[""],
                         "Date":[current_datetime],
-                        #"Personae":[st.session_state.personae],
+                        "Personae":[st.session_state.personae],
                         "Discussion":[discussion],
                         "Evaluation":[evaluation_response],
                         "Recap":[recap_response]

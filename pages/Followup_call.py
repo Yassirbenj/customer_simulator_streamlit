@@ -8,7 +8,6 @@ from langchain.schema import (
 from langchain.callbacks import get_openai_callback
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
-
 #import os
 #from dotenv import load_dotenv
 import streamlit as st
@@ -17,20 +16,19 @@ import pandas as pd
 from streamlit_gsheets import GSheetsConnection
 from datetime import datetime
 
-
 #from langchain.output_parsers import PydanticOutputParser
 #from pydantic import BaseModel, Field, validator
 #from typing import List
 
 #openapi_key=os.environ.get("OPENAI_API_KEY")
 
-st.set_page_config(page_title="Customer simulator ")
-st.header("Customer simulator")
+st.set_page_config(page_title="Follow up call simulation ")
+st.header("Follow up call simulation")
 
 def main():
     openai_api_key = st.secrets["openai"]
 
-    chat=ChatOpenAI(model_name='gpt-4',temperature=0.5,openai_api_key=openai_api_key)
+    chat=ChatOpenAI(temperature=0.5,openai_api_key=openai_api_key)
 
     if "messages" not in st.session_state:
         st.cache_data.clear()
