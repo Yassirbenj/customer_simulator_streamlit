@@ -1,11 +1,11 @@
 streamlit
-langchain
+langchain_0.0.330
 streamlit_chat
 pandas
 st-gsheets-connection
 datetime
 streamlit_authenticator
-openai
+openai_0.28.1
 audio-recorder-streamlit
 SpeechRecognition
 pydub
