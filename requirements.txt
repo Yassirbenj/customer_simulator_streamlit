@@ -12,3 +12,5 @@ pydub
 ffmpeg-python
 cohere
 google-generativeai
+bokeh
+streamlit_bokeh_events
