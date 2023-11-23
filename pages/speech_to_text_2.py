@@ -9,7 +9,9 @@ from io import BytesIO
 
 def convert_to_mp3(audio_bytes):
     audio_segment = AudioSegment.from_wav(BytesIO(audio_bytes))
-    mp3_bytes = audio_segment.export(format="mp3").read()
+    mp3_bytes_io = BytesIO()
+    audio_segment.export(mp3_bytes_io, format="mp3")
+    mp3_bytes = mp3_bytes_io.getvalue()
     return mp3_bytes
 
 audio_bytes = audio_recorder(energy_threshold=0.01, pause_threshold=2)
