@@ -13,4 +13,4 @@ ffmpeg-python
 cohere
 google-generativeai
 assemblyai
-pydub
+ffmpeg
