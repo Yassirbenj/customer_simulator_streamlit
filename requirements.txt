@@ -13,4 +13,3 @@ ffmpeg-python
 cohere
 google-generativeai
 assemblyai
-ffmpeg
