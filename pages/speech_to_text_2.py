@@ -1,17 +1,26 @@
 # `pip3 install assemblyai` (macOS)
 # `pip install assemblyai` (Windows)
 
+from io import BytesIO
 import assemblyai as aai
 import streamlit as st
 from audio_recorder_streamlit import audio_recorder
 from pydub import AudioSegment
-from io import BytesIO
+import tempfile
 
 def convert_to_mp3(audio_bytes):
+    # Load the WAV audio using pydub
     audio_segment = AudioSegment.from_wav(BytesIO(audio_bytes))
-    mp3_bytes_io = BytesIO()
-    audio_segment.export(mp3_bytes_io, format="mp3")
-    mp3_bytes = mp3_bytes_io.getvalue()
+
+    # Save it as an MP3 file using the audio_recorder library
+    with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as temp_mp3:
+        temp_mp3_name = temp_mp3.name
+        audio_segment.export(temp_mp3_name, format="mp3")
+
+    # Read the MP3 file as bytes
+    with open(temp_mp3_name, "rb") as mp3_file:
+        mp3_bytes = mp3_file.read()
+
     return mp3_bytes
 
 audio_bytes = audio_recorder(energy_threshold=0.01, pause_threshold=2)
@@ -21,8 +30,6 @@ def transcript(file):
     transcriber = aai.Transcriber()
 
     transcript = transcriber.transcribe(file)
-    # transcript = transcriber.transcribe("./my-local-audio-file.wav")
-
     st.write(transcript.text)
 
 if audio_bytes:
