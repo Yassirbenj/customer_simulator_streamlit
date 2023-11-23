@@ -4,6 +4,13 @@
 import assemblyai as aai
 import streamlit as st
 from audio_recorder_streamlit import audio_recorder
+from pydub import AudioSegment
+from io import BytesIO
+
+def convert_to_mp3(audio_bytes):
+    audio_segment = AudioSegment.from_wav(BytesIO(audio_bytes))
+    mp3_bytes = audio_segment.export(format="mp3").read()
+    return mp3_bytes
 
 audio_bytes = audio_recorder(energy_threshold=0.01, pause_threshold=2)
 
@@ -18,4 +25,5 @@ def transcript(file):
 
 if audio_bytes:
     st.audio(audio_bytes, format="audio/wav")
-    transcript(audio_bytes)
+    mp3_bytes = convert_to_mp3(audio_bytes)
+    transcript(mp3_bytes)
