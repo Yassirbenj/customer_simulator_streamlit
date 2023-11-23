@@ -14,4 +14,3 @@ cohere
 google-generativeai
 assemblyai
 pydub
-io
