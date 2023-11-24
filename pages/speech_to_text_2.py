@@ -25,7 +25,7 @@ def transcript(file):
     st.write(transcript.text)
 
 if audio_bytes:
-    st.write(audio_bytes)
+    #st.write(audio_bytes)
     st.audio(audio_bytes, format="audio/wav")
     #mp3_bytes = convert_to_mp3(audio_bytes)
     #transcript(mp3_bytes)
