@@ -28,7 +28,8 @@ def hume_prosody():
             #job.download_predictions("predictions.json")
             #st.write("Predictions downloaded to predictions.json")
             pred=job.get_predictions()
-            df=pd.read_json(pred)
-            st.dataframe(df)
+            st.write(pred)
+            #df=pd.read_json(pred)
+            #st.dataframe(df)
 
 hume_prosody()
