@@ -37,7 +37,7 @@ def json_norm(json_data):
     df1=pd.json_normalize(df0["results.predictions"][0])
     df2=pd.json_normalize(df1["models.prosody.grouped_predictions"][0])
     df3=pd.json_normalize(df2["predictions"][0])
-    df4=pd.json_normalize(df3["emotions"])
+    df4=pd.json_normalize(df3["emotions"],meta=["name","score"])
     return df4
 
 
