@@ -28,7 +28,7 @@ def hume_prosody():
             #job.download_predictions("predictions.json")
             #st.write("Predictions downloaded to predictions.json")
             pred=job.get_predictions()
-            st.write(pred)
+            #st.write(pred)
             df=json_norm(pred)
             st.dataframe(df)
 
@@ -40,7 +40,7 @@ def json_norm(json_data):
     df3=pd.json_normalize(df2["predictions"][0])
     df4=pd.json_normalize(df3["emotions"][0])
     df4.sort_values(by="score",ascending=False,inplace=True)
-    df5=df4.iloc[:5,:]
+    df5=df4.iloc[:2,:]
     return df5
 
 
