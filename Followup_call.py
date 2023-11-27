@@ -33,11 +33,9 @@ def main():
     if "messages" not in st.session_state:
         st.cache_data.clear()
         conn_pers = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
-        personaes=conn_pers.read(worksheet="personae")
-        #st.write(personaes.iloc[:,0])
-        #personaes=pd.read_csv('data/personaes.csv',index_col='Personaes')
-        #st.write(customer_persona)
-        personae=st.selectbox('Select your personae',personaes.iloc[:,0], key="personae")
+        calls=conn_pers.read(worksheet="evals")
+
+        call=st.selectbox('Select the call you want to followup',calls.iloc[:,0], key="call")
         start=st.button('Start')
         if start:
             customer_persona=personaes.iloc[personae-1,-2]
@@ -49,7 +47,7 @@ def main():
             st.session_state.company_size=personaes.iloc[personae-1,3]
             st.session_state.cost=0
         with st.sidebar:
-                st.write(personaes.iloc[personae-1,:-2])
+                st.write(calls.iloc[call-1,:-2])
 
 
     if prompt := st.chat_input("Start your call with an introduction"):
