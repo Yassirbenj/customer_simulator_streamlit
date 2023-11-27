@@ -29,8 +29,8 @@ def hume_prosody():
             #st.write("Predictions downloaded to predictions.json")
             pred=job.get_predictions()
             st.write(pred)
-            df=json_norm(pred)
-            st.dataframe(df)
+            df=pd.json_normalize(pred)
+            #st.dataframe(df)
 
 def json_norm(json_data):
     data = []
