@@ -58,7 +58,7 @@ def main():
         with st.spinner ("Thinking..."):
             with get_openai_callback() as cb:
                 response=chat(st.session_state.messages)
-                tts(response.content)
+                #tts(response.content)
                 #st.session_state.cost=round(cb.total_cost,5)
         st.session_state.messages.append(AIMessage(content=response.content))
 
@@ -72,6 +72,7 @@ def main():
             discussion+=f"Sale person: {msg.content}. "
         else:
             message(msg.content,is_user=False,key=str(i)+'_customer')
+            tts(msg.content)
             discussion+=f"Customer: {msg.content}. "
 
     if len(messages) > 5:
