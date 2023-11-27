@@ -16,7 +16,7 @@ from streamlit_gsheets import GSheetsConnection
 from datetime import datetime
 
 from speech_to_text_4 import stxt
-from pages.text_to_speech import tts
+from text_to_speech import tts
 
 
 

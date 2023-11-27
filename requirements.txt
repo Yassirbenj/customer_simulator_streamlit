@@ -14,3 +14,4 @@ cohere
 google-generativeai
 assemblyai
 gtts
+hume
