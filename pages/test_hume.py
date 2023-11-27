@@ -33,8 +33,10 @@ def hume_prosody():
             st.dataframe(df)
 
 def json_norm(json_data):
-    df=pd.json_normalize(json_data)
-    return df
+    df0=pd.json_normalize(json_data)
+    df1=pd.json_normalize(df0["results.predictions"])
+    return df1
+
 
 
 hume_prosody()
