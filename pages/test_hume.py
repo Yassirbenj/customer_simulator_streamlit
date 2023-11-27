@@ -29,7 +29,34 @@ def hume_prosody():
             #st.write("Predictions downloaded to predictions.json")
             pred=job.get_predictions()
             st.write(pred)
-            df=pd.json_normalize(pred,record_path=['emotions'])
+            df=json_norm(pred)
             st.dataframe(df)
+
+def json_norm(json_data):
+    data = []
+    for item in json_data:
+        filename = item["source"]["filename"]
+        predictions = item["results"]["predictions"]
+
+        for prediction in predictions:
+            text = prediction["predictions"][0]["text"]
+            time_begin = prediction["predictions"][0]["time"]["begin"]
+            time_end = prediction["predictions"][0]["time"]["end"]
+
+            emotions = prediction["predictions"][0]["emotions"]
+            emotion_data = {emotion["name"]: emotion["score"] for emotion in emotions}
+
+            data.append({
+                "Filename": filename,
+                "Text": text,
+                "Time_Begin": time_begin,
+                "Time_End": time_end,
+                **emotion_data
+            })
+
+    # Create DataFrame
+    df = pd.DataFrame(data)
+    return df
+
 
 hume_prosody()
