@@ -39,11 +39,11 @@ def json_norm(json_data):
         predictions = item["results"]["predictions"]
 
         for prediction in predictions:
-            text = prediction["predictions"][0]["text"]
-            time_begin = prediction["predictions"][0]["time"]["begin"]
-            time_end = prediction["predictions"][0]["time"]["end"]
+            text = prediction["models"]["prosody"]["grouped_predictions"][0]["predictions"][0]['text']
+            time_begin = prediction["models"]["prosody"]["grouped_predictions"][0]["predictions"][0]['time']['begin']
+            time_end = prediction["models"]["prosody"]["grouped_predictions"][0]["predictions"][0]['time']['end']
 
-            emotions = prediction["predictions"][0]["emotions"]
+            emotions = prediction["models"]["prosody"]["grouped_predictions"][0]["predictions"][0]["emotions"]
             emotion_data = {emotion["name"]: emotion["score"] for emotion in emotions}
 
             data.append({
