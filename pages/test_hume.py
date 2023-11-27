@@ -16,7 +16,7 @@ def hume_prosody():
             temp_audio_file.write(audio_bytes)
             temp_audio_filename = temp_audio_file.name
             filepaths = [temp_audio_filename]
-            st.audio(temp_audio_file,format="audio/wav")
+            st.audio(audio_bytes,format="audio/wav")
             client = HumeBatchClient(hume_key)
             config = ProsodyConfig()
             job = client.submit_job(None, [config], files=filepaths)
