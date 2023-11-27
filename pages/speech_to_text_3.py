@@ -17,7 +17,7 @@ if audio_bytes:
         audio = r.record(source)  # read the entire audio file
     # recognize speech using Whisper API
     try:
-        st.write(f"Whisper API thinks you said {r.recognize_whisper_api(audio, api_key=openai_api_key)}")
+        st.write(f"Transcript: {r.recognize_whisper_api(audio, api_key=openai_api_key)}")
     except sr.RequestError as e:
         st.write("Could not request results from Whisper API")
     st.audio(audio_bytes, format="audio/wav")
