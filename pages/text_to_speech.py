@@ -17,11 +17,3 @@ def tts(text):
 
     # Delete the temporary file after displaying
     os.remove(temp_filepath)
-
-# Example usage
-text_to_speak = st.text_input("Enter text to convert to speech:")
-if st.button("Generate Speech"):
-    if text_to_speak:
-        tts(text_to_speak)
-    else:
-        st.warning("Please enter some text to convert to speech.")
