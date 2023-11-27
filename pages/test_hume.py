@@ -40,7 +40,7 @@ def json_norm(json_data):
     df3=pd.json_normalize(df2["predictions"][0])
     df4=pd.json_normalize(df3["emotions"][0])
     df4.sort_values(by="score",ascending=False,inplace=True)
-    df5=df4[:5,:]
+    df5=df4.iloc[:5,:]
     return df5
 
 
