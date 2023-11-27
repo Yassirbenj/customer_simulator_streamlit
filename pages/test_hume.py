@@ -23,5 +23,6 @@ def hume_prosody():
             details = job.await_complete()
             job.download_predictions("predictions.json")
             st.write("Predictions downloaded to predictions.json")
+            job.get_predictions()
 
 hume_prosody()
