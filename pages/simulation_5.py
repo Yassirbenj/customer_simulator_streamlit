@@ -68,10 +68,10 @@ def main():
 
     for i,msg in enumerate(messages[1:]):
         if i % 2 == 0:
-            message(msg.content,is_user=True,key=str(i)+'_saleperson')
+            #message(msg.content,is_user=True,key=str(i)+'_saleperson')
             discussion+=f"Sale person: {msg.content}. "
         else:
-            message(msg.content,is_user=False,key=str(i)+'_customer')
+            #message(msg.content,is_user=False,key=str(i)+'_customer')
             tts(msg.content)
             discussion+=f"Customer: {msg.content}. "
 
