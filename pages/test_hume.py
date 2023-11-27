@@ -29,7 +29,7 @@ def hume_prosody():
             #st.write("Predictions downloaded to predictions.json")
             pred=job.get_predictions()
             st.write(pred)
-            df=pd.json_normalize(pred)
+            df=pd.json_normalize(pred,record_path=['emotions'])
             st.dataframe(df)
 
 hume_prosody()
