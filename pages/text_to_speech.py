@@ -14,4 +14,5 @@ def tts(text):
         st.audio(audio_bytes, format="audio/mp3", start_time=0)
 
 input=st.text_input("Text")
-tts(input)
+if input:
+    tts(input)
