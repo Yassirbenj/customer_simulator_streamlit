@@ -1,24 +1,27 @@
 import streamlit as st
 import tempfile
 from audio_recorder_streamlit import audio_recorder
-import asyncio
-from hume import HumeStreamClient, StreamSocket
+
+from hume import HumeBatchClient
 from hume.models.config import ProsodyConfig
 
 hume_key=st.secrets["hume"]
 
 
-async def main():
+def hume_prosody():
     audio_bytes = audio_recorder(energy_threshold=0.01, pause_threshold=2,text="You start talking")
 
     if audio_bytes:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio_file:
             temp_audio_file.write(audio_bytes)
             temp_audio_filename = temp_audio_file.name
-        client = HumeStreamClient(hume_key)
+        client = HumeBatchClient(hume_key)
         config = ProsodyConfig()
-        async with client.connect([config]) as socket:
-            result = await socket.send_file(temp_audio_filename)
-            st.write(result)
+        job = client.submit_job(None, [config], files=temp_audio_file)
+        st.write(job)
+        st.write ("Running...")
+        details = job.await_complete()
+        job.download_predictions("predictions.json")
+        st.write("Predictions downloaded to predictions.json")
 
-asyncio.run(main())
+hume_prosody()
