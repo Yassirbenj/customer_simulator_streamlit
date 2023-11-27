@@ -33,11 +33,19 @@ def hume_prosody():
             st.dataframe(df)
 
 def json_norm(json_data):
+    data=[]
     df0=pd.json_normalize(json_data)
     df1=pd.json_normalize(df0["results.predictions"][0])
     df2=pd.json_normalize(df1["models.prosody.grouped_predictions"][0])
     df3=pd.json_normalize(df2["predictions"][0])
-    df4=pd.json_normalize(df3["emotions"],meta=["name","score"])
+    for emotion in df3.emotions:
+        name=emotion.name
+        score=emotion.score
+        data.append({
+            "emotion name":name,
+            "emotion_score":score
+        })
+    df4=pd.DataFrame(data)
     return df4
 
 
