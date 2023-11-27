@@ -15,10 +15,11 @@ def hume_prosody():
         with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio_file:
             temp_audio_file.write(audio_bytes)
             temp_audio_filename = temp_audio_file.name
-            st.audio(temp_audio_file)
+            filepaths = [temp_audio_filename]
+            st.audio(temp_audio_file,format="audio/wav")
             client = HumeBatchClient(hume_key)
             config = ProsodyConfig()
-            job = client.submit_job(None, [config], files=temp_audio_file)
+            job = client.submit_job(None, [config], files=filepaths)
             st.write(job)
             st.write ("Running...")
             details = job.await_complete()
