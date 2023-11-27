@@ -16,8 +16,7 @@ from streamlit_gsheets import GSheetsConnection
 from datetime import datetime
 
 from speech_to_text_4 import stxt
-from gtts import gTTS
-import os
+from text_to_speech import tts
 
 
 
@@ -59,8 +58,7 @@ def main():
         with st.spinner ("Thinking..."):
             with get_openai_callback() as cb:
                 response=chat(st.session_state.messages)
-                audio_response = gTTS(text=response, lang="en", slow=False)
-                st.audio(audio_response)
+                tts(response)
                 #st.session_state.cost=round(cb.total_cost,5)
         st.session_state.messages.append(AIMessage(content=response.content))
 
