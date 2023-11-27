@@ -6,14 +6,14 @@ import tempfile
 openai_api_key = st.secrets["openai"]
 
 audio_bytes = audio_recorder(energy_threshold=0.01, pause_threshold=2)
-with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio_file:
-    temp_audio_file.write(audio_bytes)
-    temp_audio_filename = temp_audio_file.name
-
-# use the audio file as the audio source
-r = sr.Recognizer()
-with sr.AudioFile(temp_audio_filename) as source:
-    audio = r.record(source)  # read the entire audio file
+if audio_bytes:
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio_file:
+        temp_audio_file.write(audio_bytes)
+        temp_audio_filename = temp_audio_file.name
+    # use the audio file as the audio source
+    r = sr.Recognizer()
+    with sr.AudioFile(temp_audio_filename) as source:
+        audio = r.record(source)  # read the entire audio file
 
 #if audio_bytes:
     # recognize speech using Whisper API
