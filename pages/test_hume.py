@@ -5,6 +5,8 @@ from audio_recorder_streamlit import audio_recorder
 from hume import HumeBatchClient
 from hume.models.config import ProsodyConfig
 
+import pandas as pd
+
 hume_key=st.secrets["hume"]
 
 
@@ -26,6 +28,7 @@ def hume_prosody():
             #job.download_predictions("predictions.json")
             #st.write("Predictions downloaded to predictions.json")
             pred=job.get_predictions()
-            st.write(pred)
+            df=pd.read_json(pred)
+            st.dataframe(df)
 
 hume_prosody()
