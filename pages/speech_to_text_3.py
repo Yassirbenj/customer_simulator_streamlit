@@ -14,6 +14,7 @@ if audio_bytes:
     r = sr.Recognizer()
     with sr.AudioFile(temp_audio_filename) as source:
         audio = r.record(source)  # read the entire audio file
+    st.audio(audio_bytes, format="audio/wav")
 
 #if audio_bytes:
     # recognize speech using Whisper API
