@@ -15,4 +15,4 @@ def tts(text):
 
 input=st.text_input("Text")
 if input:
-    tts(input)
+    tts("Test")
