@@ -35,7 +35,7 @@ def hume_prosody():
 def json_norm(json_data):
     df0=pd.json_normalize(json_data)
     df1=pd.json_normalize(df0["results.predictions"][0])
-    df2=pd.json_normalize(df1["models.prosody.grouped_predictions"][0])
+    df2=pd.json_normalize(df1["models.prosody.grouped_predictions"][0]["predictions"])
     return df2
 
 
