@@ -15,14 +15,15 @@ def hume_prosody():
         with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio_file:
             temp_audio_file.write(audio_bytes)
             temp_audio_filename = temp_audio_file.name
+            st.audio(temp_audio_file)
             client = HumeBatchClient(hume_key)
             config = ProsodyConfig()
             job = client.submit_job(None, [config], files=temp_audio_file)
             st.write(job)
             st.write ("Running...")
             details = job.await_complete()
-            job.download_predictions("predictions.json")
-            st.write("Predictions downloaded to predictions.json")
+            #job.download_predictions("predictions.json")
+            #st.write("Predictions downloaded to predictions.json")
             pred=job.get_predictions()
             st.write(pred)
 
