@@ -11,7 +11,7 @@ hume_key=st.secrets["hume"]
 
 
 def hume_prosody():
-    audio_bytes = audio_recorder(energy_threshold=0.01, pause_threshold=2,text="You start talking")
+    audio_bytes = audio_recorder(energy_threshold=(-1.0, 1.0),pause_threshold=10.0,text="You start talking 10s")
 
     if audio_bytes:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio_file:
