@@ -28,7 +28,7 @@ def hume_prosody():
                     response=r.recognize_whisper_api(audio, api_key=key)
                 except sr.RequestError as e:
                     response="Could not request results from Whisper API"
-                with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as temp_txt_file:
+                with tempfile.NamedTemporaryFile(delete=False, suffix=".txt", mode='w') as temp_txt_file:
                     temp_txt_file.write(response)
                     temp_txt_filename = temp_txt_file.name
                     filepaths = [temp_txt_filename]
