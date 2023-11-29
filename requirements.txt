@@ -15,4 +15,4 @@ google-generativeai
 assemblyai
 gtts
 hume
-gingerit
+language_check
