@@ -11,7 +11,8 @@ hume_key=st.secrets["hume"]
 
 def stxt(key):
 
-    audio_bytes = audio_recorder(energy_threshold=0.01, pause_threshold=2)
+    #audio_bytes = audio_recorder(energy_threshold=0.01, pause_threshold=2)
+    audio_bytes = audio_recorder(energy_threshold=(-1.0,1.0), pause_threshold=10)
 
     if audio_bytes:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio_file:
