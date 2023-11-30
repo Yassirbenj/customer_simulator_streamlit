@@ -28,4 +28,4 @@ if discussion:
     st.write(stop_words)
     words_cleaned=[w for w in words if not w in stop_words]
     st.title("words without stop words")
-    st.write(stop_words)
+    st.write(words_cleaned)
