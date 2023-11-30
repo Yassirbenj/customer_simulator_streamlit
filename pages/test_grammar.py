@@ -26,3 +26,6 @@ if discussion:
     stop_words = [w for w in words if w in stop_words]
     st.title("stop words")
     st.write(stop_words)
+    words_cleaned=[w for w in words if not w in stop_words]
+    st.title("words without stop words")
+    st.write(stop_words)
