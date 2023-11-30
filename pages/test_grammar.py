@@ -1,6 +1,7 @@
 import nltk
 import streamlit as st
 
+nltk.download('punkt')
 discussion=st.text_area("input your paragraph")
 if discussion:
     words=nltk.word_tokenize(discussion)
