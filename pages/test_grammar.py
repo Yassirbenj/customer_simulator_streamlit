@@ -3,14 +3,20 @@ import streamlit as st
 import string
 import language_tool_python
 
-nltk.download('punkt')
-nltk.download('stopwords')
-stop_words = set(nltk.corpus.stopwords.words('english'))
+@st.cache
+def download():
+    nltk.download('punkt')
+    nltk.download('stopwords')
+
+download()
+
 
 def check_grammar(sentence):
     tool = language_tool_python.LanguageTool('en-US')
     matches = tool.check(sentence)
     return matches
+
+
 
 discussion=st.text_area("input your paragraph")
 if discussion:
@@ -39,11 +45,3 @@ if discussion:
             st.write(f"In {sentence} found grammar errors: {grammar_errors}")
         else:
             st.write(f"In {sentence} No grammar errors found.")
-    #stop words
-    stop_words = [w for w in words if w in stop_words]
-    st.title("stop words")
-    st.write(stop_words)
-    words_cleaned=[w for w in words if not w in stop_words]
-    st.title("words without stop words")
-    st.write(words_cleaned)
-    st.write(len(words_cleaned))
