@@ -18,3 +18,4 @@ hume
 nltk
 #spacy-streamlit
 language_tool_python
+java
