@@ -16,5 +16,5 @@ assemblyai
 gtts
 hume
 nltk
-spacy-streamlit
+#spacy-streamlit
 language_tool_python
