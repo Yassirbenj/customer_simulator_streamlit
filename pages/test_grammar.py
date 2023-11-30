@@ -3,6 +3,8 @@ import streamlit as st
 import string
 import language_tool_python
 import pandas as pd
+from collections import Counter
+
 
 @st.cache
 def download():
@@ -45,6 +47,8 @@ def tokenize (discussion):
     st.write(words)
     st.title("Number of words")
     st.write(len(words))
+    counter_object = Counter(words)
+    st.write(counter_object)
 
 def json_norm(json_data):
     df0=pd.json_normalize(json_data)
@@ -54,11 +58,10 @@ discussion=st.text_area("input your paragraph")
 if discussion:
     tokenize(discussion)
     st.title("Grammar errors")
-    with st.spinner ("Thinking..."):
-        grammar_errors=grammer_disc(discussion)
-        if grammar_errors:
-            st.write(f"We found {len(grammar_errors)} grammar errors")
-            for error in grammar_errors:
-                st.write(error)
-        else:
-            st.write("No grammar errors found.")
+    grammar_errors=grammer_disc(discussion)
+    if grammar_errors:
+        st.write(f"We found {len(grammar_errors)} grammar errors")
+        for error in grammar_errors:
+            st.write(error)
+    else:
+        st.write("No grammar errors found.")
