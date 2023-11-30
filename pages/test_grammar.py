@@ -33,7 +33,7 @@ def grammer_disc(discussion):
         if grammar_errors:
             st.write(f"We found {len(grammar_errors)} grammar errors")
             for error in grammar_errors:
-                error_df=pd.DataFrame.from_dict(error)
+                error_df=pd.DataFrame.from_dict(error[0])
                 st.dataframe(error_df)
         else:
             st.write("No grammar errors found.")
