@@ -83,6 +83,7 @@ def main():
             elif len(messages) <= 5:
                 st.write("The discussion is too short to be evaluated")
             else:
+                st.title("Discussion transcript")
                 st.write(discussion)
                 recap_response=recap(discussion)
                 evaluation_response=evaluate(discussion)

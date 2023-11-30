@@ -1,6 +1,9 @@
-from gingerit.gingerit import GingerIt
+import nltk
 import streamlit as st
 
-text=st.input("enter a text with grammar errors")
-parser = GingerIt()
-st.write(parser.parse(text))
+discussion=st.text_area("input your paragraph")
+words=nltk.word_tokenize(discussion)
+st.title("list of words")
+st.write(words)
+st.title("Number of words")
+st.write(len(words))
