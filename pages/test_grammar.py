@@ -26,6 +26,7 @@ def grammer_sent(discussion):
         else:
             st.write(f"In {sentence} No grammar errors found.")
 
+@st.cache()
 def grammer_disc(discussion):
     st.title("Grammar errors")
     with st.spinner ("Thinking..."):
