@@ -16,3 +16,4 @@ assemblyai
 gtts
 hume
 nltk
+spacy-streamlit

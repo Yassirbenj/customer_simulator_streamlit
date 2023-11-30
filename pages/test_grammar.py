@@ -1,6 +1,7 @@
 import nltk
 import streamlit as st
 import string
+import spacy
 
 nltk.download('punkt')
 nltk.download('stopwords')
