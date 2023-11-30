@@ -9,8 +9,8 @@ if discussion:
     for punctuation in string.punctuation:
         discussion = discussion.replace(punctuation,'')
     #remove sales person and customer
-    discussion=discussion.replace("Sale person: ",'')
-    discussion=discussion.replace("Customer: ",'')
+    discussion=discussion.replace("Sale person",'')
+    discussion=discussion.replace("Customer",'')
     st.write(discussion)
     #tokenize
     words=nltk.word_tokenize(discussion)
