@@ -2,6 +2,7 @@ import nltk
 import streamlit as st
 import string
 import language_tool_python
+import pandas as pd
 
 @st.cache
 def download():
@@ -26,11 +27,16 @@ def grammer_sent(discussion):
             st.write(f"In {sentence} No grammar errors found.")
 
 def grammer_disc(discussion):
-    grammar_errors = check_grammar(discussion)
-    if grammar_errors:
-        st.write(f"Found grammar errors: {grammar_errors}")
-    else:
-        st.write(f"No grammar errors found.")
+    st.title("Grammar errors")
+    with st.spinner ("Thinking..."):
+        grammar_errors = check_grammar(discussion)
+        if grammar_errors:
+            st.write(f"We found {len(grammar_errors)} grammar errors")
+            for error in grammar_errors:
+                error_df=pd.DataFrame.from_dict(error)
+                st.dataframe(error_df)
+        else:
+            st.write("No grammar errors found.")
 
 def tokenize (discussion):
     #remove punctuation
@@ -46,8 +52,6 @@ def tokenize (discussion):
     st.write(words)
     st.title("Number of words")
     st.write(len(words))
-    #grammar errors
-    st.title("Grammar errors")
 
 discussion=st.text_area("input your paragraph")
 tokenize(discussion)
