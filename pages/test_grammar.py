@@ -59,6 +59,6 @@ if discussion:
         if grammar_errors:
             st.write(f"We found {len(grammar_errors)} grammar errors")
             for error in grammar_errors:
-                st.write(error[2])
+                st.write(error)
         else:
             st.write("No grammar errors found.")
