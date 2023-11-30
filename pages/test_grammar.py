@@ -33,8 +33,7 @@ def grammer_disc(discussion):
         if grammar_errors:
             st.write(f"We found {len(grammar_errors)} grammar errors")
             for error in grammar_errors:
-                error_df=pd.DataFrame.from_dict(error)
-                st.dataframe(error_df)
+                st.write(error)
         else:
             st.write("No grammar errors found.")
 
@@ -52,6 +51,10 @@ def tokenize (discussion):
     st.write(words)
     st.title("Number of words")
     st.write(len(words))
+
+def json_norm(json_data):
+    df0=pd.json_normalize(json_data)
+    return df0
 
 discussion=st.text_area("input your paragraph")
 tokenize(discussion)
