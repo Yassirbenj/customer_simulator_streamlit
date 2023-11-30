@@ -3,6 +3,9 @@ import streamlit as st
 import string
 
 nltk.download('punkt')
+stop_words = set(nltk.corpus.stopwords.words('english'))
+
+
 discussion=st.text_area("input your paragraph")
 if discussion:
     #remove punctuation
@@ -18,3 +21,7 @@ if discussion:
     st.write(words)
     st.title("Number of words")
     st.write(len(words))
+    #stop words
+    stop_words = [w for w in words if w in stop_words]
+    st.title("stop words")
+    st.write(stop_words)
