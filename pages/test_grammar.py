@@ -3,6 +3,7 @@ import streamlit as st
 import string
 
 nltk.download('punkt')
+nltk.download('stopwords')
 stop_words = set(nltk.corpus.stopwords.words('english'))
 
 
