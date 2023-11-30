@@ -6,7 +6,8 @@ from langchain.schema import (
     SystemMessage
 )
 from langchain.callbacks import get_openai_callback
-
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
 #import os
 #from dotenv import load_dotenv
 import streamlit as st
@@ -15,29 +16,26 @@ import pandas as pd
 from streamlit_gsheets import GSheetsConnection
 from datetime import datetime
 
-
 #from langchain.output_parsers import PydanticOutputParser
 #from pydantic import BaseModel, Field, validator
 #from typing import List
 
 #openapi_key=os.environ.get("OPENAI_API_KEY")
 
-st.set_page_config(page_title="Customer simulator ")
-st.header("Customer simulator")
+st.set_page_config(page_title="Follow up call simulation ")
+st.header("Follow up call simulation")
 
 def main():
     openai_api_key = st.secrets["openai"]
 
-    chat=ChatOpenAI(model_name='gpt-4',temperature=0.5,openai_api_key=openai_api_key)
+    chat=ChatOpenAI(temperature=0.5,openai_api_key=openai_api_key)
 
     if "messages" not in st.session_state:
         st.cache_data.clear()
         conn_pers = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
-        personaes=conn_pers.read(worksheet="personae")
-        #st.write(personaes.iloc[:,0])
-        #personaes=pd.read_csv('data/personaes.csv',index_col='Personaes')
-        #st.write(customer_persona)
-        personae=st.selectbox('Select your personae',personaes.iloc[:,0], key="personae")
+        calls=conn_pers.read(worksheet="evals")
+
+        call=st.selectbox('Select the call you want to followup',calls.iloc[:,0], key="call")
         start=st.button('Start')
         if start:
             customer_persona=personaes.iloc[personae-1,-2]
@@ -49,7 +47,7 @@ def main():
             st.session_state.company_size=personaes.iloc[personae-1,3]
             st.session_state.cost=0
         with st.sidebar:
-                st.write(personaes.iloc[personae-1,:])
+                st.write(calls.iloc[call-1,:-2])
 
 
     if prompt := st.chat_input("Start your call with an introduction"):
@@ -87,33 +85,35 @@ def main():
             elif len(messages) <= 5:
                 st.write("The discussion is too short to be evaluated")
             else:
-                context_coach= "You are a sales coach evaluating a discussion between a sales person and a customer."
-                context_coach+="give a feedback to the sales person on the good points and the major point to be improved in his conversation."
-                st.session_state.messages=[]
-                st.session_state.messages.append(SystemMessage(content=context_coach))
-                st.session_state.messages.append(HumanMessage(content=discussion))
-                with st.spinner ("Thinking..."):
-                    with get_openai_callback() as cb:
-                        response=chat(st.session_state.messages)
-                        st.session_state.cost=round(cb.total_cost,5)
+                recap_response=recap(discussion)
+                evaluation_response=evaluate(discussion)
+                #context_coach= "You are a sales coach evaluating a discussion between a sales person and a customer."
+                #context_coach+="give a feedback to the sales person on the good points and the major point to be improved in his conversation."
+                #st.session_state.messages=[]
+                #st.session_state.messages.append(SystemMessage(content=context_coach))
+                #st.session_state.messages.append(HumanMessage(content=discussion))
+                #with st.spinner ("Thinking..."):
+                #    with get_openai_callback() as cb:
+                #        response=chat(st.session_state.messages)
+                #        st.session_state.cost=round(cb.total_cost,5)
                     #good=parser(response.content)[0]
                     #improve=parser(response.content)[1]
-                with st.sidebar:
-                    st.write(f"Type of contact: Cold call")
-                    st.write(f"Industry: {st.session_state.industry}")
-                    st.write(f"Position: {st.session_state.position}")
-                    st.write(f"Company size: {st.session_state.company_size}")
-                    st.write(f"Total Cost (USD): {st.session_state.cost}")
-                    st.session_state.messages.append(AIMessage(content=response.content))
+                #with st.sidebar:
+                #    st.write(f"Type of contact: Cold call")
+                #    st.write(f"Industry: {st.session_state.industry}")
+                #    st.write(f"Position: {st.session_state.position}")
+                #    st.write(f"Company size: {st.session_state.company_size}")
+                #    st.write(f"Total Cost (USD): {st.session_state.cost}")
+                #    st.session_state.messages.append(AIMessage(content=response.content))
 
-                messages_eval=st.session_state.get('messages',[])
+                #messages_eval=st.session_state.get('messages',[])
 
-                for i,msg in enumerate(messages_eval[2:]):
-                    if i % 2 == 0:
-                        message(msg.content,is_user=False,key=str(i)+'_coach')
+                #for i,msg in enumerate(messages_eval[2:]):
+                #    if i % 2 == 0:
+                #        message(msg.content,is_user=False,key=str(i)+'_coach')
 
-                    else:
-                        message(msg.content,is_user=True,key=str(i)+'_candidate')
+                #    else:
+                #        message(msg.content,is_user=True,key=str(i)+'_candidate')
 
                 # store results
                 st.cache_data.clear()
@@ -130,9 +130,8 @@ def main():
                         "Date":[current_datetime],
                         #"Personae":[st.session_state.personae],
                         "Discussion":[discussion],
-                        "Evaluation":[response.content],
-                        #"Good":[good],
-                        #"Improve":[improve]
+                        "Evaluation":[evaluation_response],
+                        "Recap":[recap_response]
                     }
 
                 data_df=pd.DataFrame(data)
@@ -150,6 +149,27 @@ def parser(evaluation):
 
     return good,improve
 
+def recap(discussion):
+    openai_api_key = st.secrets["openai"]
+    llm=OpenAI(openai_api_key=openai_api_key)
+    template = """Question: summarize the discussion between customer and sales person based on following discussion {question} """
+    prompt = PromptTemplate(template=template, input_variables=["question"])
+    llm_chain = LLMChain(prompt=prompt, llm=llm)
+    response=llm_chain.run(discussion)
+    st.title("Recap of the discussion")
+    st.write(response)
+    return response
+
+def evaluate(discussion):
+    openai_api_key = st.secrets["openai"]
+    llm=OpenAI(openai_api_key=openai_api_key)
+    template = """Question: evaluating a discussion between a sales person and a customer based on following discussion {question}. give a feedback to the sales person on the good points and the major point to be improved """
+    prompt = PromptTemplate(template=template, input_variables=["question"])
+    llm_chain = LLMChain(prompt=prompt, llm=llm)
+    response=llm_chain.run(discussion)
+    st.title("Evaluation of the discussion")
+    st.write(response)
+    return response
 
 #def reset_conversation():
     #st.write(st.session_state.messages)

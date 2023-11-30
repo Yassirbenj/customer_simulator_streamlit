@@ -1,4 +1,4 @@
-from langchain.chat_models import ChatOpenAI
+from langchain.chat_models import ChatLiteLLM
 from langchain.llms import OpenAI
 from langchain.schema import (
     AIMessage,
@@ -6,6 +6,7 @@ from langchain.schema import (
     SystemMessage
 )
 from langchain.callbacks import get_openai_callback
+
 #import os
 #from dotenv import load_dotenv
 import streamlit as st
@@ -13,6 +14,7 @@ from streamlit_chat import message
 import pandas as pd
 from streamlit_gsheets import GSheetsConnection
 from datetime import datetime
+
 
 #from langchain.output_parsers import PydanticOutputParser
 #from pydantic import BaseModel, Field, validator
@@ -24,9 +26,9 @@ st.set_page_config(page_title="Customer simulator ")
 st.header("Customer simulator")
 
 def main():
-    openai_api_key = st.secrets["openai"]
+    key = st.secrets["hugging"]
 
-    chat=ChatOpenAI(temperature=0.5,openai_api_key=openai_api_key)
+    chat=ChatLiteLLM(model="huggingface/facebook/blenderbot-400M-distill",huggingface_api_key=key)
 
     if "messages" not in st.session_state:
         st.cache_data.clear()
@@ -47,7 +49,7 @@ def main():
             st.session_state.company_size=personaes.iloc[personae-1,3]
             st.session_state.cost=0
         with st.sidebar:
-                st.write(personaes.iloc[personae-1,:])
+                st.write(personaes.iloc[personae-1,:-2])
 
 
     if prompt := st.chat_input("Start your call with an introduction"):
@@ -59,9 +61,7 @@ def main():
                 st.write(f"Total Cost (USD): {st.session_state.cost}")
         st.session_state.messages.append(HumanMessage(content=prompt))
         with st.spinner ("Thinking..."):
-            with get_openai_callback() as cb:
                 response=chat(st.session_state.messages)
-                st.session_state.cost=round(cb.total_cost,5)
         st.session_state.messages.append(AIMessage(content=response.content))
 
     messages=st.session_state.get('messages',[])
