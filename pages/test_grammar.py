@@ -11,6 +11,7 @@ if discussion:
     #remove sales person and customer
     discussion=discussion.replace("Sale person: ",'')
     discussion=discussion.replace("Customer: ",'')
+    st.write(discussion)
     #tokenize
     words=nltk.word_tokenize(discussion)
     st.title("list of words")
