@@ -10,7 +10,7 @@ stop_words = set(nltk.corpus.stopwords.words('english'))
 discussion=st.text_area("input your paragraph")
 if discussion:
     #remove punctuation
-    sentences=nltk.word_tokenize(discussion)
+    sentences=nltk.sent_tokenize(discussion)
     for punctuation in string.punctuation:
         discussion = discussion.replace(punctuation,'')
     #remove sales person and customer
