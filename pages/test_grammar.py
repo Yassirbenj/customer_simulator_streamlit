@@ -28,15 +28,8 @@ def grammer_sent(discussion):
 
 @st.cache()
 def grammer_disc(discussion):
-    st.title("Grammar errors")
-    with st.spinner ("Thinking..."):
-        grammar_errors = check_grammar(discussion)
-        if grammar_errors:
-            st.write(f"We found {len(grammar_errors)} grammar errors")
-            for error in grammar_errors:
-                st.write(error)
-        else:
-            st.write("No grammar errors found.")
+    grammar_errors = check_grammar(discussion)
+    return grammar_errors
 
 def tokenize (discussion):
     #remove punctuation
@@ -58,5 +51,14 @@ def json_norm(json_data):
     return df0
 
 discussion=st.text_area("input your paragraph")
-tokenize(discussion)
-grammer_disc(discussion)
+if discussion:
+    tokenize(discussion)
+    st.title("Grammar errors")
+    with st.spinner ("Thinking..."):
+        grammar_errors=grammer_disc(discussion)
+        if grammar_errors:
+            st.write(f"We found {len(grammar_errors)} grammar errors")
+            for error in grammar_errors:
+                st.write(error)
+        else:
+            st.write("No grammar errors found.")
