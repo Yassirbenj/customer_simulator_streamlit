@@ -48,7 +48,8 @@ def tokenize (discussion):
     st.title("Number of words")
     st.write(len(words))
     counter_object = Counter(words)
-    st.write(counter_object)
+    counter_df=pd.DataFrame.from_dict(counter_object)
+    st.dataframe(counter_df)
 
 def json_norm(json_data):
     df0=pd.json_normalize(json_data)
