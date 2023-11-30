@@ -29,3 +29,4 @@ if discussion:
     words_cleaned=[w for w in words if not w in stop_words]
     st.title("words without stop words")
     st.write(words_cleaned)
+    st.write(len(words_cleaned))
