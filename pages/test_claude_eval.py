@@ -168,7 +168,7 @@ def recap(discussion):
 def evaluate(discussion):
     openai_api_key = st.secrets["openai"]
     claude_key=st.secrets["claude"]
-    llm=anthropic(anthropic_api_key=claude_key)
+    llm=anthropic()
     template = """Question: evaluating a discussion between a sales person and a customer based on following discussion {question}. give a feedback to the sales person on the good points and the major point to be improved """
     prompt = PromptTemplate(template=template, input_variables=["question"])
     llm_chain = LLMChain(prompt=prompt, llm=llm)
