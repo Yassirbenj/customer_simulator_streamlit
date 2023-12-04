@@ -167,7 +167,7 @@ def recap(discussion):
 def evaluate(discussion):
     openai_api_key = st.secrets["openai"]
     llm=OpenAI(openai_api_key=openai_api_key)
-    template = """Question: propose rewordings of the salesperson's sentences that could improve results based on the discussion {question}. explain why"""
+    template = """Question: for each sentence of the salesperson in its discussion {question} with customer, propose a better sentence to improve sales results. explain why"""
     prompt = PromptTemplate(template=template, input_variables=["question"])
     llm_chain = LLMChain(prompt=prompt, llm=llm)
     response=llm_chain.run(discussion)
