@@ -28,7 +28,7 @@ st.header("Customer simulator")
 def main():
     claude_key = st.secrets["claude"]
 
-    chat = ChatAnthropic(anthropic_api_key=claude_key)
+    chat = ChatAnthropic(anthropic_api_key=claude_key, model_name="claude-2")
 
 
     if "messages" not in st.session_state:
