@@ -61,6 +61,7 @@ def main():
                 st.write(f"Position: {st.session_state.position}")
                 st.write(f"Company size: {st.session_state.company_size}")
                 st.write(f"Total Cost (USD): {st.session_state.cost}")
+                st.write(evaluate(prompt))
         st.session_state.messages.append(HumanMessage(content=prompt))
         with st.spinner ("Thinking..."):
             with get_openai_callback() as cb:
@@ -167,11 +168,11 @@ def recap(discussion):
 def evaluate(discussion):
     openai_api_key = st.secrets["openai"]
     llm=OpenAI(openai_api_key=openai_api_key)
-    template = """Question: for each sentence of the salesperson in its discussion {question} with customer, propose a better sentence to improve sales results. explain why"""
+    template = """Question: you are a coach for sales persons. do you have a better formulation for this sentence {question} ?  explain why"""
     prompt = PromptTemplate(template=template, input_variables=["question"])
     llm_chain = LLMChain(prompt=prompt, llm=llm)
     response=llm_chain.run(discussion)
-    st.title("Evaluation of the discussion")
+    #st.title("Evaluation of the discussion")
     st.write(response)
     return response
 
