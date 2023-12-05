@@ -61,7 +61,7 @@ def main():
                 st.write(f"Position: {st.session_state.position}")
                 st.write(f"Company size: {st.session_state.company_size}")
                 st.write(f"Total Cost (USD): {st.session_state.cost}")
-                evaluation=evaluate(prompt)
+                evaluation=evaluate(discussion)
                 st.write(evaluation)
         st.session_state.messages.append(HumanMessage(content=prompt))
         with st.spinner ("Thinking..."):
