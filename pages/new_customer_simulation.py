@@ -148,14 +148,15 @@ def config_persona():
     department=st.text_input("What department within the company are you calling (ex: finance, operations...) ?")
     reason=st.selectbox("Why are you calling this customer?",('cold call','fulfill a contact form','met in a tradeshow'))
     personnality=st.text_input("what are the main traits of character of your contact person (ex: busy, willing to discuss, impolite...) ?")
-
-    openai_api_key = st.secrets["openai"]
-    llm=OpenAI(openai_api_key=openai_api_key)
-    template = """Question: if you are working in department {department} of a company in the industry {industry}, what will be the main points you want to check before buying a product type {product} ?"""
-    prompt = PromptTemplate(template=template, input_variables=["department","industry","product"])
-    llm_chain = LLMChain(prompt=prompt, llm=llm)
-    context=llm_chain.run(department,industry,product)
-    st.write(context)
+    start=st.button("start")
+    if start:
+        openai_api_key = st.secrets["openai"]
+        llm=OpenAI(openai_api_key=openai_api_key)
+        template = """Question: if you are working in department {department} of a company in the industry {industry}, what will be the main points you want to check before buying a product type {product} ?"""
+        prompt = PromptTemplate(template=template, input_variables=["department","industry","product"])
+        llm_chain = LLMChain(prompt=prompt, llm=llm)
+        context=llm_chain.run(department,industry,product)
+        st.write(context)
 
 config_persona()
 #main()
