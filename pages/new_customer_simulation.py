@@ -157,7 +157,7 @@ def config_persona():
         persona+=" your main personality trait are "+ personnality +"."
         persona += f"You will reply to the sales person based on what's important for you to validate. For this purpose you will take into account the following context: {context_text}"
         persona += f"You will also ask questions related to the competitors of the presented product: {competition_text}"
-        persona += "you do not easily disclose your needs and expectations easily. you are a customer not an assistant "
+        persona += "You respond briefly to the questions. you do not easily disclose your needs and expectations easily. you are a customer not an assistant "
         return persona
 
 #config_persona()
