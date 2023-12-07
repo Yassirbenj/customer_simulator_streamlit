@@ -43,6 +43,7 @@ def main():
             st.session_state.position=personaes.iloc[personae-1,2]
             st.session_state.company_size=personaes.iloc[personae-1,3]
             st.session_state.cost=0
+            st.session_state.evals=[]
         with st.sidebar:
                 st.write(personaes.iloc[personae-1,:-2])
 
@@ -54,6 +55,9 @@ def main():
                 st.write(f"Position: {st.session_state.position}")
                 st.write(f"Company size: {st.session_state.company_size}")
                 st.write(f"Total Cost (USD): {st.session_state.cost}")
+                evaluation=evaluate_sentence(prompt)
+                st.write(evaluation)
+                st.session_state.evals.append({prompt:evaluation})
         st.session_state.messages.append(HumanMessage(content=prompt))
         with st.spinner ("Thinking..."):
             with get_openai_callback() as cb:
@@ -87,7 +91,9 @@ def main():
                 st.write(discussion)
                 recap_response=recap(discussion)
                 evaluation_response=evaluate(discussion)
-
+                st.title("Recommendations")
+                evaluations=st.session_state.evals
+                st.write(evaluations)
                 # store results
                 st.cache_data.clear()
                 conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
@@ -131,6 +137,15 @@ def recap(discussion):
     response=llm_chain.run(discussion)
     st.title("Recap of the discussion")
     st.write(response)
+    return response
+
+def evaluate_sentence(sentence):
+    openai_api_key = st.secrets["openai"]
+    llm=OpenAI(openai_api_key=openai_api_key)
+    template = """Question: you are a coach for sales persons. this sentence {question} is from a sales person discussing with a customer. do you have a better formulation that will help to improve the sales process?  explain why"""
+    prompt = PromptTemplate(template=template, input_variables=["question"])
+    llm_chain = LLMChain(prompt=prompt, llm=llm)
+    response=llm_chain.run(sentence)
     return response
 
 def evaluate(discussion):
