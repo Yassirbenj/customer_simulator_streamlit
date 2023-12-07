@@ -23,36 +23,19 @@ def main():
 
     chat=ChatOpenAI(model_name='gpt-4',temperature=0.5,openai_api_key=openai_api_key)
 
-    sent_eval=[]
-
     if "messages" not in st.session_state:
         st.cache_data.clear()
-        conn_pers = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
-        personaes=conn_pers.read(worksheet="personae")
-        personae=st.selectbox('Select your personae',personaes.iloc[:,0], key="personae")
-        start=st.button('Start')
-        if start:
-            customer_persona=personaes.iloc[personae-1,-2]
+        personae=config_persona()
+        if personae:
             st.session_state.messages=[
-                SystemMessage(content=customer_persona)
+                SystemMessage(content=personae)
                 ]
-            st.session_state.industry=personaes.iloc[personae-1,1]
-            st.session_state.position=personaes.iloc[personae-1,2]
-            st.session_state.company_size=personaes.iloc[personae-1,3]
             st.session_state.cost=0
             st.session_state.evals=[]
-        with st.sidebar:
-                st.write(personaes.iloc[personae-1,:-2])
-
 
     if prompt := st.chat_input("Start your call with an introduction"):
         st.session_state.messages.append(HumanMessage(content=prompt))
         with st.sidebar:
-                st.write(f"Type of contact: Cold call")
-                st.write(f"Industry: {st.session_state.industry}")
-                st.write(f"Position: {st.session_state.position}")
-                st.write(f"Company size: {st.session_state.company_size}")
-                st.write(f"Total Cost (USD): {st.session_state.cost}")
                 evaluation=evaluate_sentence(prompt)
                 st.write(evaluation)
                 st.session_state.evals.append({prompt:evaluation})
@@ -147,7 +130,7 @@ def config_persona():
     #type_customer=st.selectbox("Are you selling to a company or a direct consumer ?",('B2B'))
     industry=st.text_input("To what industry do you want to sell (ex: hotels, construction ) ?")
     department=st.text_input("What department within the company are you calling (ex: finance, operations...) ?")
-    reason=st.selectbox("Why are you calling this customer?",('no reason','fulfill a contact form','met in a tradeshow'))
+    #reason=st.selectbox("Why are you calling this customer?",('no reason','fulfill a contact form','met in a tradeshow'))
     personnality=st.text_input("what are the main traits of character of your contact person (ex: busy, willing to discuss, impolite...) ?")
     start=st.button("start")
     if start:
@@ -167,7 +150,15 @@ def config_persona():
         llm_chain2 = LLMChain(prompt=prompt2, llm=llm2)
         input_list2 = {"industry": industry,"product": product,"product_name":product_name}
         competition=llm_chain2(input_list2)
-        st.write(competition["text"])
+        competition_text=competition["text"]
 
-config_persona()
-#main()
+        persona="You are a customer responding to a call from a sales person. "
+        persona+="You are in the industry of "+ industry + "."
+        persona+=" your main personality trait are "+ personnality +"."
+        persona += f"You will reply to the sales person based on what's important for you to validate. For this purpose you will take into account the following context: {context_text}"
+        persona += f"You will also ask questions related to the competitors of the presented product: {competition_text}"
+        persona += "you do not easily disclose your needs and expectations easily. you are a customer not an assistant "
+        return persona
+
+#config_persona()
+main()
