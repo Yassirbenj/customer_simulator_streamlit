@@ -130,7 +130,7 @@ def config_persona():
     #type_customer=st.selectbox("Are you selling to a company or a direct consumer ?",('B2B'))
     industry=st.text_input("To what industry do you want to sell (ex: hotels, construction ) ?")
     department=st.text_input("What department within the company are you calling (ex: finance, operations...) ?")
-    #reason=st.selectbox("Why are you calling this customer?",('no reason','fulfill a contact form','met in a tradeshow'))
+    reason=st.selectbox("did the customer contacted you before ?",('no','yes, fulfill a contact form','yes, contacted elsewhere'))
     personnality=st.text_input("what are the main traits of character of your contact person (ex: busy, willing to discuss, impolite...) ?")
     start=st.button("start")
     if start:
@@ -159,6 +159,12 @@ def config_persona():
         persona += f"You will try to evaluate the sales person proposition based on following main points : {context_text}. you will try to validate one point after the other."
         persona += f"before concluding You will try to challenge the sales persons about their competitors: {competition_text}. you will ask the question after understanding the sales person offer"
         persona += "You respond briefly to the questions. you do not easily disclose your needs and expectations easily. you are a customer not an assistant "
+        if reason=="'no":
+            persona+="you never contacted this company before."
+        elif reason=='yes, fulfill a contact form':
+            persona+="you have fulfilled a contact form in the company's website."
+        else:
+            persona+="you have been in contact with this company elsewhere."
         return persona
 
 #config_persona()
