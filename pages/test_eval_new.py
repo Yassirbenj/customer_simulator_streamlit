@@ -62,7 +62,8 @@ def main():
                 st.write(f"Company size: {st.session_state.company_size}")
                 st.write(f"Total Cost (USD): {st.session_state.cost}")
                 evaluation=evaluate(prompt)
-                st.write(evaluation)
+                if prompt != "":
+                    st.write(evaluation)
         st.session_state.messages.append(HumanMessage(content=prompt))
         with st.spinner ("Thinking..."):
             with get_openai_callback() as cb:
