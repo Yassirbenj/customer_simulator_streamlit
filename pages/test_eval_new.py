@@ -95,7 +95,7 @@ def main():
                 recap_response=recap(discussion)
                 evaluation_response=evaluate(discussion)
                 st.title("Recommendations")
-                st.write(st.session_state.evals.get())
+                st.write(st.session_state.evals)
                 st.cache_data.clear()
                 conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
                 df=conn.read()
