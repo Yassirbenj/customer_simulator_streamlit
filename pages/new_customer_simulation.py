@@ -143,11 +143,11 @@ def evaluate(discussion):
 
 def config_persona():
     product=st.text_input("What category of product are you selling (ex: CRM, aluminium windows...) ?")
-    type_customer=st.selectbox("Are you selling to a company or a direct consumer ?",('B2B'))
+    #type_customer=st.selectbox("Are you selling to a company or a direct consumer ?",('B2B'))
     industry=st.text_input("To what industry do you want to sell (ex: hotels, construction ) ?")
     department=st.text_input("What department within the company are you calling (ex: finance, operations...) ?")
-    reason=st.selectbox("Why are you calling this customer?",('cold call','fulfill a contact form','met in a tradeshow'))
-    personnality=st.text_input("what are the main traits of character of your contact person (ex: busy, willing to discuss, impolite...) ?")
+    #reason=st.selectbox("Why are you calling this customer?",('cold call','fulfill a contact form','met in a tradeshow'))
+    #personnality=st.text_input("what are the main traits of character of your contact person (ex: busy, willing to discuss, impolite...) ?")
     start=st.button("start")
     if start:
         openai_api_key = st.secrets["openai"]
