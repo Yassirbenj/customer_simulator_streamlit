@@ -139,13 +139,13 @@ def recap(discussion):
     st.write(response)
     return response
 
-def evaluate_sentence(sentence,discussion):
+def evaluate_sentence(sentence):
     openai_api_key = st.secrets["openai"]
     llm=OpenAI(openai_api_key=openai_api_key)
-    template = """Question: you are a coach for sales persons. this sentence {question} is from a sales person discussing with a customer. taking into account the discussion {discussion} do you have a better formulation that will help to improve the sales process?  explain why"""
+    template = """Question: you are a coach for sales persons. this sentence {question} is from a sales person discussing with a customer. do you have a better formulation that will help to improve the sales process?  explain why"""
     prompt = PromptTemplate(template=template, input_variables=["question","discussion"])
     llm_chain = LLMChain(prompt=prompt, llm=llm)
-    response=llm_chain.run(sentence,discussion)
+    response=llm_chain.run(sentence)
     return response
 
 def evaluate(discussion):
