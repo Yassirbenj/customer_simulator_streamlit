@@ -49,6 +49,7 @@ def main():
             st.session_state.position=personaes.iloc[personae-1,2]
             st.session_state.company_size=personaes.iloc[personae-1,3]
             st.session_state.cost=0
+            st.session_state.evals=[]
         with st.sidebar:
                 st.write(personaes.iloc[personae-1,:-2])
 
@@ -63,7 +64,7 @@ def main():
                 st.write(f"Total Cost (USD): {st.session_state.cost}")
                 evaluation=evaluate_sentence(prompt)
                 st.write(evaluation)
-                sent_eval.append({prompt:evaluation})
+                st.session_state.evals.append({prompt:evaluation})
         with st.spinner ("Thinking..."):
             with get_openai_callback() as cb:
                 response=chat(st.session_state.messages)
@@ -94,7 +95,7 @@ def main():
                 recap_response=recap(discussion)
                 evaluation_response=evaluate(discussion)
                 st.title("Recommendations")
-                st.write(sent_eval)
+                st.write(st.session_state.evals.get())
                 st.cache_data.clear()
                 conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
                 df=conn.read()
