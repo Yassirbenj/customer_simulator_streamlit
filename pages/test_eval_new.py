@@ -32,6 +32,8 @@ def main():
 
     chat=ChatOpenAI(model_name='gpt-4',temperature=0.5,openai_api_key=openai_api_key)
 
+    sent_eval=[]
+
     if "messages" not in st.session_state:
         st.cache_data.clear()
         conn_pers = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
@@ -59,9 +61,9 @@ def main():
                 st.write(f"Position: {st.session_state.position}")
                 st.write(f"Company size: {st.session_state.company_size}")
                 st.write(f"Total Cost (USD): {st.session_state.cost}")
-                st.write(st.session_state.get('messages',[-1]))
-                #evaluation=evaluate(prompt)
-                #st.write(evaluation)
+                evaluation=evaluate_sentence(prompt)
+                st.write(evaluation)
+                sent_eval.append({prompt:evaluation})
         with st.spinner ("Thinking..."):
             with get_openai_callback() as cb:
                 response=chat(st.session_state.messages)
@@ -91,6 +93,8 @@ def main():
             else:
                 recap_response=recap(discussion)
                 evaluation_response=evaluate(discussion)
+                st.title("Recommendations")
+                st.write(sent_eval)
                 st.cache_data.clear()
                 conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
                 df=conn.read()
@@ -135,15 +139,23 @@ def recap(discussion):
     st.write(response)
     return response
 
-def evaluate(discussion):
+def evaluate_sentence(sentence):
     openai_api_key = st.secrets["openai"]
     llm=OpenAI(openai_api_key=openai_api_key)
     template = """Question: you are a coach for sales persons. this sentence {question} is from a sales person discussing with a customer. do you have a better formulation that will help to improve the sales process?  explain why"""
-    #template = """Question: you are a coach for sales persons. the last sentence of the following discussion {question} is from a sales person discussing with a customer. do you have a better formulation that will help to improve the sales process?  explain why"""
+    prompt = PromptTemplate(template=template, input_variables=["question"])
+    llm_chain = LLMChain(prompt=prompt, llm=llm)
+    response=llm_chain.run(sentence)
+    return response
+
+def evaluate(discussion):
+    openai_api_key = st.secrets["openai"]
+    llm=OpenAI(openai_api_key=openai_api_key)
+    template = """Question: you are a coach for sales persons. the last sentence of the following discussion {question} is from a sales person discussing with a customer. do you have a better formulation that will help to improve the sales process?  explain why"""
     prompt = PromptTemplate(template=template, input_variables=["question"])
     llm_chain = LLMChain(prompt=prompt, llm=llm)
     response=llm_chain.run(discussion)
-    #st.title("Evaluation of the discussion")
+    st.title("Evaluation of the discussion")
     st.write(response)
     return response
 
