@@ -157,7 +157,7 @@ def config_persona():
         llm_chain = LLMChain(prompt=prompt, llm=llm)
         input_list = {"department": department,"industry": industry,"product": product}
         context=llm_chain(input_list)
-        st.write(context.text)
+        st.write(context)
 
 config_persona()
 #main()
