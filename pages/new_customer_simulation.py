@@ -143,13 +143,15 @@ def evaluate(discussion):
 
 def config_persona():
     product=st.text_input("What category of product are you selling (ex: CRM, aluminium windows...) ?")
+    product_name=st.text_input("whats the name of your product ?")
     #type_customer=st.selectbox("Are you selling to a company or a direct consumer ?",('B2B'))
     industry=st.text_input("To what industry do you want to sell (ex: hotels, construction ) ?")
     department=st.text_input("What department within the company are you calling (ex: finance, operations...) ?")
-    #reason=st.selectbox("Why are you calling this customer?",('cold call','fulfill a contact form','met in a tradeshow'))
-    #personnality=st.text_input("what are the main traits of character of your contact person (ex: busy, willing to discuss, impolite...) ?")
+    reason=st.selectbox("Why are you calling this customer?",('no reason','fulfill a contact form','met in a tradeshow'))
+    personnality=st.text_input("what are the main traits of character of your contact person (ex: busy, willing to discuss, impolite...) ?")
     start=st.button("start")
     if start:
+        #context
         openai_api_key = st.secrets["openai"]
         llm=OpenAI(openai_api_key=openai_api_key)
         template = """Question: if you are working in department {department} of a company in the industry {industry}, what will be the main points you want to check before buying a product type {product} ?"""
@@ -157,7 +159,15 @@ def config_persona():
         llm_chain = LLMChain(prompt=prompt, llm=llm)
         input_list = {"department": department,"industry": industry,"product": product}
         context=llm_chain(input_list)
-        st.write(context["text"])
+        context_text=context["text"]
+        #competitors
+        llm2=OpenAI(openai_api_key=openai_api_key)
+        template2 = """Question: if you are working in a company in the industry {industry}, what will be the main products of type {product} that compete with product {product_name} ?"""
+        prompt2 = PromptTemplate(template=template2, input_variables=["industry","product","product_name"])
+        llm_chain2 = LLMChain(prompt=prompt2, llm=llm2)
+        input_list2 = {"industry": industry,"product": product,"product_name":product_name}
+        competition=llm_chain2(input_list2)
+        st.write(competition["text"])
 
 config_persona()
 #main()
