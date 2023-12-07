@@ -160,7 +160,7 @@ def config_persona():
         persona += f"before concluding You will try to challenge the sales persons about their competitors: {competition_text}. you will ask the question after understanding the sales person offer"
         persona += "You respond briefly to the questions. you do not easily disclose your needs and expectations easily. you are a customer not an assistant "
         if reason=="'no":
-            persona+="you never contacted this company before."
+            persona+="you never contacted this company before. you need to understand who's calling and why before going forward."
         elif reason=='yes, fulfill a contact form':
             persona+="you have fulfilled a contact form in the company's website."
         else:
