@@ -155,8 +155,9 @@ def config_persona():
         template = """Question: if you are working in department {department} of a company in the industry {industry}, what will be the main points you want to check before buying a product type {product} ?"""
         prompt = PromptTemplate(template=template, input_variables=["department","industry","product"])
         llm_chain = LLMChain(prompt=prompt, llm=llm)
-        context=llm_chain.run(department,industry,product)
-        st.write(context)
+        input_list = [{"department": department}, {"industry": industry}, {"product": product}]
+        context=llm_chain(input_list)
+        st.write(context.text)
 
 config_persona()
 #main()
