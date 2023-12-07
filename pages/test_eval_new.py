@@ -36,9 +36,6 @@ def main():
         st.cache_data.clear()
         conn_pers = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
         personaes=conn_pers.read(worksheet="personae")
-        #st.write(personaes.iloc[:,0])
-        #personaes=pd.read_csv('data/personaes.csv',index_col='Personaes')
-        #st.write(customer_persona)
         personae=st.selectbox('Select your personae',personaes.iloc[:,0], key="personae")
         start=st.button('Start')
         if start:
@@ -55,16 +52,16 @@ def main():
 
 
     if prompt := st.chat_input("Start your call with an introduction"):
+        st.session_state.messages.append(HumanMessage(content=prompt))
         with st.sidebar:
                 st.write(f"Type of contact: Cold call")
                 st.write(f"Industry: {st.session_state.industry}")
                 st.write(f"Position: {st.session_state.position}")
                 st.write(f"Company size: {st.session_state.company_size}")
                 st.write(f"Total Cost (USD): {st.session_state.cost}")
-                evaluation=evaluate(prompt)
-                if prompt != "":
-                    st.write(evaluation)
-        st.session_state.messages.append(HumanMessage(content=prompt))
+                st.write(st.session_state.get('messages',[-1]))
+                #evaluation=evaluate(prompt)
+                #st.write(evaluation)
         with st.spinner ("Thinking..."):
             with get_openai_callback() as cb:
                 response=chat(st.session_state.messages)
@@ -94,35 +91,6 @@ def main():
             else:
                 recap_response=recap(discussion)
                 evaluation_response=evaluate(discussion)
-                #context_coach= "You are a sales coach evaluating a discussion between a sales person and a customer."
-                #context_coach+="give a feedback to the sales person on the good points and the major point to be improved in his conversation."
-                #st.session_state.messages=[]
-                #st.session_state.messages.append(SystemMessage(content=context_coach))
-                #st.session_state.messages.append(HumanMessage(content=discussion))
-                #with st.spinner ("Thinking..."):
-                #    with get_openai_callback() as cb:
-                #        response=chat(st.session_state.messages)
-                #        st.session_state.cost=round(cb.total_cost,5)
-                    #good=parser(response.content)[0]
-                    #improve=parser(response.content)[1]
-                #with st.sidebar:
-                #    st.write(f"Type of contact: Cold call")
-                #    st.write(f"Industry: {st.session_state.industry}")
-                #    st.write(f"Position: {st.session_state.position}")
-                #    st.write(f"Company size: {st.session_state.company_size}")
-                #    st.write(f"Total Cost (USD): {st.session_state.cost}")
-                #    st.session_state.messages.append(AIMessage(content=response.content))
-
-                #messages_eval=st.session_state.get('messages',[])
-
-                #for i,msg in enumerate(messages_eval[2:]):
-                #    if i % 2 == 0:
-                #        message(msg.content,is_user=False,key=str(i)+'_coach')
-
-                #    else:
-                #        message(msg.content,is_user=True,key=str(i)+'_candidate')
-
-                # store results
                 st.cache_data.clear()
                 conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
                 df=conn.read()
