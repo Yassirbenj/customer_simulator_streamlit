@@ -175,5 +175,5 @@ def scoring_eval(discussion):
 
 
 #config_persona()
-main()
-#scoring_eval()
+#main()
+scoring_eval()
