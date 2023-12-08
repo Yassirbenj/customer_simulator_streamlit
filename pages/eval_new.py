@@ -173,8 +173,7 @@ def scoring_eval():
     uploaded_file = st.file_uploader("Choose a evaluation grid file")
     if uploaded_file is not None:
         try:
-            string_data = StringIO.read(uploaded_file.getvalue())
-            st.write(string_data)
+            st.write(uploaded_file)
         except Exception as e:
             st.error(f"Error loading file: {str(e)}")
 
