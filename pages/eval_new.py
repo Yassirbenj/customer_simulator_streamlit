@@ -169,7 +169,8 @@ def config_persona():
         return persona
 
 def scoring_eval():
-    loader = TextLoader("/Users/yassir2/Downloads/evaluation-grid-2.txt")
+    path=st.text_input("Path to your eval grid")
+    loader = TextLoader(path)
     eval_grid=loader.load()
     st.write(eval_grid)
 
