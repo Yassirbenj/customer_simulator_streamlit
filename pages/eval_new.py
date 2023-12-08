@@ -168,7 +168,7 @@ def config_persona():
             persona+="you have been in contact with this company elsewhere."
         return persona
 
-def scoring_eval(discussion):
+def scoring_eval():
     loader = TextLoader("/Users/yassir2/Downloads/evaluation-grid-2.txt")
     eval_grid=loader.load()
     st.write(eval_grid)
