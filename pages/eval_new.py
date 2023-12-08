@@ -170,9 +170,10 @@ def config_persona():
 
 def scoring_eval():
     path=st.text_input("Path to your eval grid")
-    loader = TextLoader(path)
-    eval_grid=loader.load()
-    st.write(eval_grid)
+    if path:
+        loader = TextLoader(path)
+        eval_grid=loader.load()
+        st.write(eval_grid)
 
 
 #config_persona()
