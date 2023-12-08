@@ -9,6 +9,7 @@ from langchain.callbacks import get_openai_callback
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.document_loaders import TextLoader
+from io import StringIO
 
 import streamlit as st
 from streamlit_chat import message
@@ -169,11 +170,13 @@ def config_persona():
         return persona
 
 def scoring_eval():
-    path=st.text_input("Path to your eval grid")
-    if path:
-        loader = TextLoader(path)
-        eval_grid=loader.load()
-        st.write(eval_grid)
+    uploaded_file = st.file_uploader("Choose a evaluation grid file")
+    if uploaded_file:
+        try:
+            string_data = StringIO.read()
+            st.write(string_data)
+        except Exception as e:
+            st.error(f"Error loading file: {str(e)}")
 
 
 #config_persona()
