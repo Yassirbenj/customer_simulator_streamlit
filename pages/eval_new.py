@@ -17,7 +17,6 @@ import pandas as pd
 from streamlit_gsheets import GSheetsConnection
 from datetime import datetime
 
-import chardet
 
 st.set_page_config(page_title="Customer simulator ")
 st.header("Customer simulator")
@@ -173,18 +172,6 @@ def config_persona():
 
 def scoring_eval():
     uploaded_file = st.file_uploader("Choose a evaluation grid file")
-    if uploaded_file is not None:
-        try:
-            # Detect the file encoding
-            raw_data = uploaded_file.getvalue()
-            result = chardet.detect(raw_data)
-            file_encoding = result['encoding']
-
-            # Decode using detected encoding
-            stringio = StringIO(raw_data.decode(file_encoding))
-            st.write(stringio)
-        except Exception as e:
-            st.error(f"Error loading file: {str(e)}")
 
 
 #config_persona()

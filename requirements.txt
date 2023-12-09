@@ -19,4 +19,3 @@ nltk
 #spacy-streamlit
 language_tool_python
 anthropic
-chardet
