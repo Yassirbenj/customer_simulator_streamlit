@@ -172,7 +172,9 @@ def config_persona():
 
 def scoring_eval():
     uploaded_file = st.file_uploader("Choose a evaluation grid file")
-    st.write(uploaded_file)
+    if uploaded_file is not None:
+        file_contents = uploaded_file.read()
+        st.write(file_contents)
 
 #config_persona()
 #main()
