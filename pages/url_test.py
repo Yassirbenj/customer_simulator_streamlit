@@ -13,4 +13,4 @@ soup = BeautifulSoup(response.text, "html.parser")
 # Find the right tag
 life_info = soup.find("span", style= "display:none")
 
-st.write(life_info)
+st.write(soup)
