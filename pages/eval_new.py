@@ -29,12 +29,15 @@ def main():
     if "messages" not in st.session_state:
         st.cache_data.clear()
         personae=config_persona()
+        eval_grid=scoring_eval()
         if personae:
             st.session_state.messages=[
                 SystemMessage(content=personae)
                 ]
             st.session_state.cost=0
             st.session_state.evals=[]
+        if eval_grid:
+            st.session_state.grid=eval_grid
 
     if prompt := st.chat_input("Start your call with an introduction"):
         st.session_state.messages.append(HumanMessage(content=prompt))
@@ -68,8 +71,7 @@ def main():
                 st.write("The discussion is too short to be evaluated")
             else:
                 recap_response=recap(discussion)
-                eval_grid=scoring_eval()
-                evaluation_response=evaluate(discussion,eval_grid)
+                evaluation_response=evaluate(discussion,st.session_state.grid)
                 st.title("Recommendations")
                 evaluations=st.session_state.evals
                 st.write(evaluations)
