@@ -181,5 +181,5 @@ def scoring_eval():
         return decoded_response
 
 #config_persona()
-#main()
-scoring_eval()
+main()
+#scoring_eval()
