@@ -68,7 +68,8 @@ def main():
                 st.write("The discussion is too short to be evaluated")
             else:
                 recap_response=recap(discussion)
-                evaluation_response=evaluate(discussion)
+                eval_grid=scoring_eval()
+                evaluation_response=evaluate(discussion,eval_grid)
                 st.title("Recommendations")
                 evaluations=st.session_state.evals
                 st.write(evaluations)
@@ -116,13 +117,14 @@ def evaluate_sentence(sentence):
     response=llm_chain.run(sentence)
     return response
 
-def evaluate(discussion):
+def evaluate(discussion,grid):
     openai_api_key = st.secrets["openai"]
     llm=OpenAI(openai_api_key=openai_api_key)
-    template = """Question: you are a coach for sales persons. the last sentence of the following discussion {question} is from a sales person discussing with a customer. do you have a better formulation that will help to improve the sales process?  explain why"""
-    prompt = PromptTemplate(template=template, input_variables=["question"])
+    template = """Question: evaluating a discussion between a sales person and a customer based on following discussion {discussion}. give a feedback to the sales person on the good points and the major point to be improved based on the following evaluation grid {grid} """
+    prompt = PromptTemplate(template=template, input_variables=["discussion","grid"])
     llm_chain = LLMChain(prompt=prompt, llm=llm)
-    response=llm_chain.run(discussion)
+    input_list = {"discussion": discussion,"grid": grid}
+    response=llm_chain(input_list)
     st.title("Evaluation of the discussion")
     st.write(response)
     return response
@@ -175,7 +177,8 @@ def scoring_eval():
     if uploaded_file is not None:
         file_contents = uploaded_file.read()
         decoded_response = file_contents.decode('utf-8')
-        st.write(decoded_response)
+        #st.write(decoded_response)
+        return decoded_response
 
 #config_persona()
 #main()
