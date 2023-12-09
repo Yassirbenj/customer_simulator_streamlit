@@ -126,9 +126,9 @@ def evaluate(discussion,grid):
     prompt = PromptTemplate(template=template, input_variables=["discussion","grid"])
     llm_chain = LLMChain(prompt=prompt, llm=llm)
     input_list = {"discussion": discussion,"grid": grid}
-    response=llm_chain(input_list)
+    response=llm_chain.run(input_list)
     st.title("Evaluation of the discussion")
-    st.write(response)
+    st.write(response["text"])
     return response
 
 def config_persona():
