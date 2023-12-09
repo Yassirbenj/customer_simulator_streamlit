@@ -153,7 +153,7 @@ def evaluate_sentence(sentence):
 def evaluate(discussion):
     openai_api_key = st.secrets["openai"]
     llm=OpenAI(openai_api_key=openai_api_key)
-    template = """Question: you are a coach for sales persons. the last sentence of the following discussion {question} is from a sales person discussing with a customer. do you have a better formulation that will help to improve the sales process?  explain why"""
+    template = """Question: evaluating a discussion between a sales person and a customer based on following discussion {question}. give a feedback to the sales person on the good points and the major point to be improved """
     prompt = PromptTemplate(template=template, input_variables=["question"])
     llm_chain = LLMChain(prompt=prompt, llm=llm)
     response=llm_chain.run(discussion)
