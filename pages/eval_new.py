@@ -128,7 +128,7 @@ def evaluate(discussion,grid):
     input_list = {"discussion": discussion,"grid": grid}
     response=llm_chain.run(input_list)
     st.title("Evaluation of the discussion")
-    st.write(response["text"])
+    st.write(response)
     return response
 
 def config_persona():
