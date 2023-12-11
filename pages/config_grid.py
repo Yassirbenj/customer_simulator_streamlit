@@ -13,7 +13,7 @@ def scoring(discussion):
         eval_list=df.iloc[:,0].tolist()
         openai_api_key = st.secrets["openai"]
         llm=OpenAI(openai_api_key=openai_api_key)
-        template = """Question: evaluating a discussion between a sales person and a customer based on following discussion {discussion}. give a feedback to the sales person on the good points and the major point to be improved based on the following evaluation parameters {grid} """
+        template = """Question: evaluating a discussion between a sales person and a customer based on following discussion {discussion}. give a feedback to the sales person on the good points and the major point to be improved based on the following evaluation parameters {grid}. Give clear explanations for each parameter. """
         prompt = PromptTemplate(template=template, input_variables=["discussion","grid"])
         llm_chain = LLMChain(prompt=prompt, llm=llm)
         input_list = {"discussion": discussion,"grid": eval_list}
