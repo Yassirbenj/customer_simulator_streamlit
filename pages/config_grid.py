@@ -8,8 +8,8 @@ def main():
 def scoring_eval():
     uploaded_file = st.file_uploader("upload a evaluation grid file")
     if uploaded_file is not None:
-        df = pd.read_csv(uploaded_file,index_col=0)
-        st.write(df.iloc[:,0])
+        df = pd.read_csv(uploaded_file)
+        st.write(df.iloc[:,0].tolist())
         #return df[]
 
 main()
