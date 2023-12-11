@@ -19,7 +19,7 @@ def scoring(discussion):
         eval_list=df.iloc[:,0].tolist()
         openai_api_key = st.secrets["openai"]
         chat=ChatOpenAI(model_name='gpt-4',temperature=1,openai_api_key=openai_api_key)
-        context = """Question: evaluate a discussion between a sales person and a customer based on following discussion: {discussion}. give a feedback to the sales person on the good points and the major point to be improved based on the following evaluation parameters: {grid}. Give clear explanations for each parameter. """
+        context = f"Question: evaluate a discussion between a sales person and a customer based on following discussion: {discussion}. give a feedback to the sales person on the good points and the major point to be improved based on the following evaluation parameters: {eval_list}. Give clear explanations for each parameter. """
         st.session_state.messages=[]
         st.session_state.messages.append(SystemMessage(content=context))
         st.session_state.messages.append(HumanMessage(content=discussion))
