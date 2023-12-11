@@ -54,4 +54,4 @@ discussion=st.file_uploader("upload discussion")
 if discussion is not None:
     file_contents = discussion.read()
     decoded_discussion = file_contents.decode('utf-8')
-    scoring(discussion)
+    scoring(decoded_discussion)
