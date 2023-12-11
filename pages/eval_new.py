@@ -16,6 +16,7 @@ from streamlit_chat import message
 import pandas as pd
 from streamlit_gsheets import GSheetsConnection
 from datetime import datetime
+from config_grid import scoring_eval
 
 
 st.set_page_config(page_title="Customer simulator ")
@@ -173,14 +174,6 @@ def config_persona():
         else:
             persona+="you have been in contact with this company elsewhere."
         return persona
-
-def scoring_eval():
-    uploaded_file = st.file_uploader("Choose a evaluation grid file")
-    if uploaded_file is not None:
-        file_contents = uploaded_file.read()
-        decoded_response = file_contents.decode('utf-8')
-        #st.write(decoded_response)
-        return decoded_response
 
 #config_persona()
 main()
