@@ -3,6 +3,12 @@ import pandas as pd
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
+from langchain.chat_models import ChatOpenAI
+from langchain.schema import (
+    AIMessage,
+    HumanMessage,
+    SystemMessage
+)
 
 
 
@@ -12,15 +18,28 @@ def scoring(discussion):
         df = pd.read_csv(uploaded_file)
         eval_list=df.iloc[:,0].tolist()
         openai_api_key = st.secrets["openai"]
-        llm=OpenAI(openai_api_key=openai_api_key)
-        template = """Question: evaluating a discussion between a sales person and a customer based on following discussion {discussion}. give a feedback to the sales person on the good points and the major point to be improved based on the following evaluation parameters {grid}. Give clear explanations for each parameter. """
-        prompt = PromptTemplate(template=template, input_variables=["discussion","grid"])
-        llm_chain = LLMChain(prompt=prompt, llm=llm)
-        input_list = {"discussion": discussion,"grid": eval_list}
-        response=llm_chain.run(input_list)
-        st.title("Evaluation of the discussion")
-        st.write(response)
-        return response
+        chat=ChatOpenAI(model_name='gpt-4',temperature=1,openai_api_key=openai_api_key)
+        context = """Question: evaluate a discussion between a sales person and a customer based on following discussion: {discussion}. give a feedback to the sales person on the good points and the major point to be improved based on the following evaluation parameters: {grid}. Give clear explanations for each parameter. """
+        st.session_state.messages=[]
+        st.session_state.messages.append(SystemMessage(content=context))
+        st.session_state.messages.append(HumanMessage(content=discussion))
+        with st.spinner ("Thinking..."):
+            response=chat(st.session_state.messages)
+            st.write(response.content)
+
+
+
+
+
+        #llm=OpenAI(openai_api_key=openai_api_key,)
+        #template = """Question: evaluating a discussion between a sales person and a customer based on following discussion {discussion}. give a feedback to the sales person on the good points and the major point to be improved based on the following evaluation parameters {grid}. Give clear explanations for each parameter. """
+        #prompt = PromptTemplate(template=template, input_variables=["discussion","grid"])
+        #llm_chain = LLMChain(prompt=prompt, llm=llm)
+        #input_list = {"discussion": discussion,"grid": eval_list}
+        #response=llm_chain.run(input_list)
+        #st.title("Evaluation of the discussion")
+        #st.write(response)
+        #return response
 
 
 def scoring_eval():
