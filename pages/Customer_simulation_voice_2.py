@@ -18,6 +18,7 @@ from datetime import datetime
 
 from speech_to_text_4 import stxt
 from text_to_speech import tts
+from scoring import scoring
 
 st.set_page_config(page_title="Customer simulator ")
 st.header("Customer simulator")
@@ -70,10 +71,12 @@ def main():
                 st.write("The discussion is too short to be evaluated")
             else:
                 recap_response=recap(discussion)
-                evaluation_response=evaluate(discussion)
+                st.title ("Evaluation")
+                evaluation_response=scoring(discussion)
+                st.write(evaluation)
                 st.title("Recommendations")
-                evaluations=st.session_state.evals
-                st.write(evaluations)
+                recommendations=st.session_state.evals
+                st.write(recommendations)
                 st.cache_data.clear()
                 conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=1)
                 df=conn.read()
