@@ -26,7 +26,7 @@ def scoring(discussion):
     st.session_state.messages.append(HumanMessage(content=discussion))
     with st.spinner ("Thinking..."):
         response=chat(st.session_state.messages)
-        #st.write(response.content)
+        st.write(response.content)
         return response.content
 
 
