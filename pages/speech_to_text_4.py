@@ -54,4 +54,4 @@ def stxt_fr(key):
         return response
 
 key=st.secrets["openai"]
-stxt(key)
+stxt_fr(key)
