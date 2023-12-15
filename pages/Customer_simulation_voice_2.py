@@ -18,7 +18,6 @@ from datetime import datetime
 
 from speech_to_text_4 import stxt
 from text_to_speech import tts
-from scoring import scoring
 
 st.set_page_config(page_title="Customer simulator ")
 st.header("Customer simulator")
@@ -180,6 +179,22 @@ def scoring_eval(discussion):
     eval_grid=loader.load()
     st.write(eval_grid)
 
+def scoring(discussion):
+    #uploaded_file = st.file_uploader("upload a evaluation grid file")
+    #if uploaded_file is not None:
+    #df = pd.read_csv(uploaded_file)
+    eval_list=['Preparation','Setting call agenda','Discovery','Positive language','Restate pain points','Illustrate Value','Highlight against competitor','stories','Next steps']
+    openai_api_key = st.secrets["openai"]
+    chat=ChatOpenAI(model_name='gpt-4',temperature=1,openai_api_key=openai_api_key)
+    context = f"evaluate a discussion between a sales person and a customer based on following discussion: {discussion}. give a feedback to the sales person on the good points and the major point to be improved based on the following evaluation parameters: {eval_list}. Give clear explanations for each parameter. "
+    context += "Give a grade from 0 to 100% for each of those parameters. Calculate a global grade as the average of the grade of each parameter"
+    st.session_state.messages=[]
+    st.session_state.messages.append(SystemMessage(content=context))
+    st.session_state.messages.append(HumanMessage(content=discussion))
+    with st.spinner ("Thinking..."):
+        response=chat(st.session_state.messages)
+        #st.write(response.content)
+        return response.content
 
 #config_persona()
 main()
