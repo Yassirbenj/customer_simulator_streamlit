@@ -46,7 +46,7 @@ def stxt_fr(key):
             audio = r.record(source)  # read the entire audio file
         # recognize speech using Whisper API
             try:
-                response=r.recognize_whisper_api(audio, api_key=key,language='fr-FR')
+                response=r.recognize_whisper_api(audio, api_key=key)
                 st.write(f"Transcript: {response}")
             except sr.RequestError as e:
                 response="Could not request results from Whisper API"
@@ -54,4 +54,4 @@ def stxt_fr(key):
         return response
 
 key=st.secrets["openai"]
-stxt_fr(key)
+stxt(key)
