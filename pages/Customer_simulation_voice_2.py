@@ -72,7 +72,7 @@ def main():
                 recap_response=recap(discussion)
                 st.title ("Evaluation")
                 evaluation_response=scoring(discussion)
-                st.write(evaluation)
+                st.write(evaluation_response)
                 st.title("Recommendations")
                 recommendations=st.session_state.evals
                 st.write(recommendations)
