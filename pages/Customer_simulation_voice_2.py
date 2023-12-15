@@ -194,7 +194,8 @@ def scoring(discussion):
     with st.spinner ("Thinking..."):
         response=chat(st.session_state.messages)
         #st.write(response.content)
-        return response.content
+        if response:
+            return response.content
 
 #config_persona()
 main()
