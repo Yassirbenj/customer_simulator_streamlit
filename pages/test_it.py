@@ -24,7 +24,7 @@ def personae(field,level):
     context+=f"ask a multiple choice question to evaluate competency {field} with a level of expertise {level}"
     key=st.secrets["openai"]
     llm=OpenAI(openai_api_key=key)
-    template = """Question: You are recruiter asking questions to evaluate competencies of a candidate. ask a multiple choice question to evaluate competency {field} with a level of expertise {level}"""
+    template = """Question: You are recruiter asking questions to evaluate competencies of a candidate. ask a multiple choice question to evaluate competency {field} with a level of expertise {level}. write each option in a separate line. write the correct answer in a separate line"""
     prompt = PromptTemplate(template=template, input_variables=["field","level"])
     llm_chain = LLMChain(prompt=prompt, llm=llm)
     input_list = {"field": field,"level": level}
