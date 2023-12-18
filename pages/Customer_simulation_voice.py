@@ -27,7 +27,6 @@ def main():
     openai_api_key = st.secrets["openai"]
 
     chat=ChatOpenAI(model_name='gpt-4',temperature=0.5,openai_api_key=openai_api_key)
-    st.session_state.status="non started"
 
     if "messages" not in st.session_state:
         st.cache_data.clear()
@@ -45,31 +44,27 @@ def main():
             st.session_state.company_size=personaes.iloc[personae-1,3]
             st.session_state.cost=0
             st.session_state.evals=[]
-            st.session_state.status="started"
-            st.experimental_rerun()
         with st.sidebar:
                 st.write(personaes.iloc[personae-1,:-2])
-    else:
 
-        if st.session_state.status=="started":
-            st.header("Start conversation")
-            if prompt := stxt(openai_api_key):
-                with st.sidebar:
-                        st.write(f"Type of contact: Cold call")
-                        st.write(f"Industry: {st.session_state.industry}")
-                        st.write(f"Position: {st.session_state.position}")
-                        st.write(f"Company size: {st.session_state.company_size}")
-                        st.write(f"Total Cost (USD): {st.session_state.cost}")
-                        evaluation=evaluate_sentence(prompt)
-                        st.write(evaluation)
-                        st.session_state.evals.append({prompt:evaluation})
-                st.session_state.messages.append(HumanMessage(content=prompt))
-                with st.spinner ("Thinking..."):
-                    with get_openai_callback() as cb:
-                        response=chat(st.session_state.messages)
-                        #tts(response.content)
-                        #st.session_state.cost=round(cb.total_cost,5)
-                st.session_state.messages.append(AIMessage(content=response.content))
+
+        if prompt := stxt(openai_api_key):
+            with st.sidebar:
+                    st.write(f"Type of contact: Cold call")
+                    st.write(f"Industry: {st.session_state.industry}")
+                    st.write(f"Position: {st.session_state.position}")
+                    st.write(f"Company size: {st.session_state.company_size}")
+                    st.write(f"Total Cost (USD): {st.session_state.cost}")
+                    evaluation=evaluate_sentence(prompt)
+                    st.write(evaluation)
+                    st.session_state.evals.append({prompt:evaluation})
+            st.session_state.messages.append(HumanMessage(content=prompt))
+            with st.spinner ("Thinking..."):
+                with get_openai_callback() as cb:
+                    response=chat(st.session_state.messages)
+                    #tts(response.content)
+                    #st.session_state.cost=round(cb.total_cost,5)
+            st.session_state.messages.append(AIMessage(content=response.content))
 
     messages=st.session_state.get('messages',[])
     discussion=""
