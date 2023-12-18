@@ -29,7 +29,7 @@ def personae(field,level):
     llm_chain = LLMChain(prompt=prompt, llm=llm)
     input_list = {"field": field,"level": level}
     question=llm_chain(input_list)
-    st.write(question.text)
+    st.write(question["text"])
 
 
 main()
