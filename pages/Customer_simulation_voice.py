@@ -46,6 +46,7 @@ def main():
             st.session_state.cost=0
             st.session_state.evals=[]
             st.session_state.status="started"
+            st.experimental_rerun
         with st.sidebar:
                 st.write(personaes.iloc[personae-1,:-2])
 
