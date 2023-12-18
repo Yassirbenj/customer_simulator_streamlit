@@ -50,6 +50,7 @@ def main():
                 st.write(personaes.iloc[personae-1,:-2])
 
     if st.session_state.status=="started":
+        st.header("Start conversation")
         if prompt := stxt(openai_api_key):
             with st.sidebar:
                     st.write(f"Type of contact: Cold call")
