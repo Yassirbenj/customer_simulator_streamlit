@@ -14,6 +14,7 @@ def main():
                 st.session_state.status="started"
                 placeholder.empty()
 
-    st.write("continue")
+    if st.session_state.status=="non started":
+        st.write("continue")
 
 main()
