@@ -47,24 +47,24 @@ def main():
         with st.sidebar:
                 st.write(personaes.iloc[personae-1,:-2])
 
-
-    if prompt := stxt(openai_api_key):
-        with st.sidebar:
-                st.write(f"Type of contact: Cold call")
-                st.write(f"Industry: {st.session_state.industry}")
-                st.write(f"Position: {st.session_state.position}")
-                st.write(f"Company size: {st.session_state.company_size}")
-                st.write(f"Total Cost (USD): {st.session_state.cost}")
-                evaluation=evaluate_sentence(prompt)
-                st.write(evaluation)
-                st.session_state.evals.append({prompt:evaluation})
-        st.session_state.messages.append(HumanMessage(content=prompt))
-        with st.spinner ("Thinking..."):
-            with get_openai_callback() as cb:
-                response=chat(st.session_state.messages)
-                #tts(response.content)
-                #st.session_state.cost=round(cb.total_cost,5)
-        st.session_state.messages.append(AIMessage(content=response.content))
+    else:
+        if prompt := stxt(openai_api_key):
+            with st.sidebar:
+                    st.write(f"Type of contact: Cold call")
+                    st.write(f"Industry: {st.session_state.industry}")
+                    st.write(f"Position: {st.session_state.position}")
+                    st.write(f"Company size: {st.session_state.company_size}")
+                    st.write(f"Total Cost (USD): {st.session_state.cost}")
+                    evaluation=evaluate_sentence(prompt)
+                    st.write(evaluation)
+                    st.session_state.evals.append({prompt:evaluation})
+            st.session_state.messages.append(HumanMessage(content=prompt))
+            with st.spinner ("Thinking..."):
+                with get_openai_callback() as cb:
+                    response=chat(st.session_state.messages)
+                    #tts(response.content)
+                    #st.session_state.cost=round(cb.total_cost,5)
+            st.session_state.messages.append(AIMessage(content=response.content))
 
     messages=st.session_state.get('messages',[])
     discussion=""
