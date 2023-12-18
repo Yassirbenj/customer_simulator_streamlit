@@ -12,7 +12,7 @@ def main():
             start=st.button("start")
             if start:
                 st.session_state.status="started"
-                placeholder=st.empty()
+                placeholder.empty()
 
     else:
         st.write("continue")
