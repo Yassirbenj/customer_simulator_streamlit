@@ -14,7 +14,6 @@ def main():
                 st.session_state.status="started"
                 placeholder.empty()
 
-    else:
-        st.write("continue")
+    st.write("continue")
 
 main()
