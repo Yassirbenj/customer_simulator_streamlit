@@ -13,6 +13,7 @@ def main():
             if start:
                 st.session_state.status="started"
                 placeholder.empty()
+                main()
 
     if st.session_state.status=="started":
         st.write("continue")
