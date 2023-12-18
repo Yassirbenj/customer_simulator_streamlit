@@ -27,6 +27,7 @@ def main():
     openai_api_key = st.secrets["openai"]
 
     chat=ChatOpenAI(model_name='gpt-4',temperature=0.5,openai_api_key=openai_api_key)
+    st.session_state.status="non started"
 
     if "messages" not in st.session_state:
         st.cache_data.clear()
