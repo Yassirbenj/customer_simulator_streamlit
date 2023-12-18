@@ -7,3 +7,5 @@ def main():
     level=st.selectbox(options=["Beginner,Intermediate,Expert"])
     if field is not None & level is not None:
         start=st.button("start")
+
+main()
