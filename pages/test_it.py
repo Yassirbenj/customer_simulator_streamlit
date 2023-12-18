@@ -10,7 +10,7 @@ def main():
         start=st.button("start")
         if start:
             st.session_state.status="started"
-            st.rerun()
+            main()
 
     else:
         st.write("continue")
