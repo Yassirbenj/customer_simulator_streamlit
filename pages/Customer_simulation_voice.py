@@ -44,10 +44,11 @@ def main():
             st.session_state.company_size=personaes.iloc[personae-1,3]
             st.session_state.cost=0
             st.session_state.evals=[]
+            st.session_state.status="started"
         with st.sidebar:
                 st.write(personaes.iloc[personae-1,:-2])
 
-    else:
+    if st.session_state.status=="started":
         if prompt := stxt(openai_api_key):
             with st.sidebar:
                     st.write(f"Type of contact: Cold call")
