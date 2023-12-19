@@ -45,6 +45,7 @@ def parser (field,level):
     # Defining data structure.
     class Question(BaseModel):
         setup: str = Field(description="question to evaluate a candidate")
+        additional: str=Field(description="additional informations about the question")
         options: str=Field(description="possible options for the question asked")
         answer: str = Field(description="correct answer to resolve the question")
 
@@ -66,10 +67,11 @@ def parser (field,level):
 
     # And a query intended to prompt a language model to populate the data structure.
     prompt_and_model = prompt | model
-    query=f"question to evaluate competency of a candidate in field {field} with a level of expertise {level}"
+    query=f"complete question to evaluate competency of a candidate in field {field} with a level of expertise {level}"
     input_data = {
         "query": query,
         "setup": "Your setup question here",  # Provide the setup question
+        "additional": "Your additional informations about the question here",
         "options": "Your options here",  # Provide the options for the question
         "answer": "Your correct answer here",  # Provide the correct answer
     }
