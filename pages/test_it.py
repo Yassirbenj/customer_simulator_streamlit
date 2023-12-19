@@ -45,7 +45,7 @@ def parser (field,level):
     # Defining data structure.
     class Question(BaseModel):
         setup: str = Field(description="question to evaluate a candidate")
-        additional: str=Field(description="snippet of the code if the question include a code")
+        additional: str=Field(description="the snippet of the code if the question include a code. if no snippet of the code in the question, keep it empty")
         options: str=Field(description="possible options for the question asked")
         answer: str = Field(description="correct answer to resolve the question")
 
