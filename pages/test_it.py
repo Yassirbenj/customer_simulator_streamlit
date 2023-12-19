@@ -88,7 +88,7 @@ def parser (field,level):
         question=output_dict["setup"]
         options=output_dict["options"]
         elements = options.split(";;")
-        option_list = [int(element) for element in elements]
+        option_list = [element for element in elements]
         answer=output_dict["answer"]
     st.header("Question")
     st.write(question)
