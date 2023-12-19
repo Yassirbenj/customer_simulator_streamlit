@@ -80,9 +80,14 @@ def parser (field,level):
     #st.write(output)
     output_dict = json.loads(output)
     st.write(output_dict)
-    question=output_dict["setup"]
-    options=output_dict["options"]
-    answer=output_dict["answer"]
+    if "properties" in output_dict:
+        question=output_dict["properties"]["setup"]
+        options=output_dict["properties"]["options"]
+        answer=output_dict["properties"]["answer"]
+    else:
+        question=output_dict["setup"]
+        options=output_dict["options"]
+        answer=output_dict["answer"]
     st.header("Question")
     st.write(question)
     st.header("Options")
