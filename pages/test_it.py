@@ -93,7 +93,7 @@ def parser (field,level):
     st.header("Question")
     st.write(question)
     st.header("Options")
-    st.write(option_list)
+    st.selectbox("select the best option",option_list)
 
     #response=parser.invoke(output)
     #st.write(response)
