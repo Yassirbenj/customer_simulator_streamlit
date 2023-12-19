@@ -1,4 +1,6 @@
 import streamlit as st
+import json
+
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.llms import OpenAI
@@ -73,10 +75,11 @@ def parser (field,level):
     }
 
     output = prompt_and_model.invoke(input_data)
-    st.write(output)
-    question=output["setup"]
-    options=output[1]
-    answer=output[2]
+    output_dict = json.loads(output)
+    st.write(output_dict)
+    question=output_dict["setup"]
+    options=output_dict["options"]
+    answer=output_dict["answer"]
     st.header("Question")
     st.write(question)
     st.header("Options")
