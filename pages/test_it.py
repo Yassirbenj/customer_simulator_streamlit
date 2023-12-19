@@ -73,9 +73,9 @@ def parser (field,level):
     }
 
     output = prompt_and_model.invoke(input_data)
-    question=output["setup"]
-    options=output["options"]
-    answer=output["answer"]
+    question=output[0]
+    options=output[1]
+    answer=output[2]
     st.header("Question")
     st.write(question)
     st.header("Options")
