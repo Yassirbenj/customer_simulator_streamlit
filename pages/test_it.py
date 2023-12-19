@@ -25,7 +25,7 @@ def main():
             #main()
 
     if st.session_state.status=="started":
-        personae(field,level)
+       parser(field,level)
 
 def personae(field,level):
     context="You are recruiter asking questions to evaluate competencies of a candidate. "
@@ -123,5 +123,5 @@ def timer():
 
 
 
-#main()
-parser("PHP","Beginner")
+main()
+#parser("PHP","Beginner")
