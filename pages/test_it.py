@@ -67,7 +67,7 @@ def parser (field,level):
 
     # And a query intended to prompt a language model to populate the data structure.
     prompt_and_model = prompt | model
-    query=f"complete question to evaluate competency of a candidate in field {field} with a level of expertise {level}"
+    query=f"A question to evaluate competency of a candidate in field {field} with a level of expertise {level}"
     input_data = {
         "query": query,
         "setup": "Your setup question here",  # Provide the setup question
