@@ -73,9 +73,16 @@ def parser (field,level):
     }
 
     output = prompt_and_model.invoke(input_data)
-    st.write(output)
-    response=parser.invoke(output)
-    st.write(response)
+    question=output["setup"]
+    options=output["options"]
+    answer=output["answer"]
+    st.header("Question")
+    st.write(question)
+    st.header("Options")
+    st.write(options)
+    #st.write(output)
+    #response=parser.invoke(output)
+    #st.write(response)
 
 #main()
 parser("PHP","Beginner")
