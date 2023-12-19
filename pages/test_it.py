@@ -103,8 +103,8 @@ def parser (field,level):
     st.header("Question")
     st.write(question)
     st.header("Options")
-    response=st.radio("select the best option",option_list,index=None)
     timer()
+    response=st.radio("select the best option",option_list,index=None)
     if response==answer:
         st.write("Correct answer !")
     else:
