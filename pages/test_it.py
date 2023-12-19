@@ -47,7 +47,7 @@ def parser (field,level):
     class Question(BaseModel):
         setup: str = Field(description="question to evaluate a candidate including a code snippet if exists")
         #additional: str=Field(description="the snippet of the code if the question include a code.")
-        options: str=Field(description="possible options for the question asked separated by two semicolons")
+        options: str=Field(description="possible options for the question asked. the options should be separated by two semicolons")
         answer: str = Field(description="correct answer to resolve the question")
 
         # validation logic
