@@ -123,5 +123,5 @@ def timer():
 
 
 
-main()
-#parser("PHP","Beginner")
+#main()
+parser("PHP","Beginner")
