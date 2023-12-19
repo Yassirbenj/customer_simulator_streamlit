@@ -38,7 +38,7 @@ def personae(field,level):
 
 def parser (field,level):
     key=st.secrets["openai"]
-    model = OpenAI(model_name="gpt-3.5-turbo-instruct", temperature=0.0,openai_api_key=key)
+    model = OpenAI(model_name="gpt-3.5-turbo-instruct", temperature=0.5,openai_api_key=key)
 
     # Defining data structure.
     class Question(BaseModel):
