@@ -87,7 +87,7 @@ def parser (field,level):
         else:
             question=output_dict["properties"]["setup"]
         if isinstance(output_dict["properties"]["options"], dict):
-            question=output_dict["properties"]["options"]["description"]
+            options=output_dict["properties"]["options"]["description"]
         else:
             options=output_dict["properties"]["options"]
         if isinstance(output_dict["properties"]["answer"], dict):
