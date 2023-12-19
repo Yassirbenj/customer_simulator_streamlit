@@ -115,7 +115,7 @@ def parser (field,level):
 
 def timer():
     ph = st.empty()
-    N = 5*60
+    N = 20
     for secs in range(N,0,-1):
         mm, ss = secs//60, secs%60
         ph.metric("Countdown", f"{mm:02d}:{ss:02d}")
