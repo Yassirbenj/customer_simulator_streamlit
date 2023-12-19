@@ -73,6 +73,7 @@ def parser (field,level):
     }
 
     output = prompt_and_model.invoke(input_data)
+    st.write(output)
     response=parser.invoke(output)
     st.write(response)
 
