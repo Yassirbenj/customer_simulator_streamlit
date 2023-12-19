@@ -65,7 +65,14 @@ def parser (field,level):
     # And a query intended to prompt a language model to populate the data structure.
     prompt_and_model = prompt | model
     query=f"question to evaluate competency of a candidate in field {field} with a level of expertise {level}"
-    output = prompt_and_model.invoke({"query": query })
+    input_data = {
+        "query": query,
+        "setup": "Your setup question here",  # Provide the setup question
+        "options": "Your options here",  # Provide the options for the question
+        "answer": "Your correct answer here",  # Provide the correct answer
+    }
+
+    output = prompt_and_model.invoke(input_data)
     response=parser.invoke(output)
     st.write(response)
 
