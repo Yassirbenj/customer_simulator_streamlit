@@ -47,11 +47,11 @@ def parser (field,level):
         answer: str = Field(description="correct answer to resolve the question")
 
         # validation logic
-        @validator("setup")
-        def question_ends_with_question_mark(cls, field):
-            if field[-1] != "?":
-                raise ValueError("Badly formed question!")
-            return field
+        #@validator("setup")
+        #def question_ends_with_question_mark(cls, field):
+        #    if field[-1] != "?":
+        #        raise ValueError("Badly formed question!")
+        #    return field
 
     # Set up a parser + inject instructions into the prompt template.
     parser = PydanticOutputParser(pydantic_object=Question)
