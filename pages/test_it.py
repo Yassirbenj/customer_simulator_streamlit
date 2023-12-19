@@ -3,6 +3,11 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.llms import OpenAI
 
+from langchain.llms import OpenAI
+from langchain.output_parsers import PydanticOutputParser
+from langchain.prompts import PromptTemplate
+from langchain.pydantic_v1 import BaseModel, Field, validator
+
 
 st.header("test")
 st.session_state.status="non started"
@@ -31,5 +36,37 @@ def personae(field,level):
     question=llm_chain(input_list)
     st.write(question["text"])
 
+def parser (field,level):
+    key=st.secrets["openai"]
+    model = OpenAI(model_name="gpt-3.5-turbo-instruct", temperature=0.0,openai_api_key=key)
 
-main()
+    # Defining data structure.
+    class Question(BaseModel):
+        setup: str = Field(description="question to evaluate a candidate")
+        options: str=Field(description="possible options for the question asked")
+        answer: str = Field(description="correct answer to resolve the question")
+
+        # validation logic
+        @validator("setup")
+        def question_ends_with_question_mark(cls, field):
+            if field[-1] != "?":
+                raise ValueError("Badly formed question!")
+            return field
+
+    # Set up a parser + inject instructions into the prompt template.
+    parser = PydanticOutputParser(pydantic_object=Question)
+
+    prompt = PromptTemplate(
+        template="Answer the user query.\n{format_instructions}\n{query}\n",
+        input_variables=["query"],
+        partial_variables={"format_instructions": parser.get_format_instructions()},
+    )
+
+    # And a query intended to prompt a language model to populate the data structure.
+    prompt_and_model = prompt | model
+    query=f"question to evaluate competency of a candidate in field {field} with a level of expertise {level}"
+    output = prompt_and_model.invoke({"query": query })
+    parser.invoke(output)
+
+#main()
+parser("PHP","Beginner")
