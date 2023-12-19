@@ -87,11 +87,13 @@ def parser (field,level):
     else:
         question=output_dict["setup"]
         options=output_dict["options"]
+        elements = options.split(";;")
+        option_list = [int(element) for element in elements]
         answer=output_dict["answer"]
     st.header("Question")
     st.write(question)
     st.header("Options")
-    st.write(options)
+    st.write(option_list)
 
     #response=parser.invoke(output)
     #st.write(response)
