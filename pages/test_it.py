@@ -66,7 +66,8 @@ def parser (field,level):
     prompt_and_model = prompt | model
     query=f"question to evaluate competency of a candidate in field {field} with a level of expertise {level}"
     output = prompt_and_model.invoke({"query": query })
-    parser.invoke(output)
+    response=parser.invoke(output)
+    st.write(response)
 
 #main()
 parser("PHP","Beginner")
