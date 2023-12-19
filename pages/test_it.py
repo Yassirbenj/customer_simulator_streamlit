@@ -77,7 +77,7 @@ def parser (field,level):
     }
 
     output = prompt_and_model.invoke(input_data)
-    st.write(output)
+    #st.write(output)
     output_dict = json.loads(output)
     st.write(output_dict)
     question=output_dict["setup"]
@@ -88,7 +88,7 @@ def parser (field,level):
     st.header("Options")
     st.write(options)
 
-    response=parser.invoke(output)
+    #response=parser.invoke(output)
     #st.write(response)
 
 #main()
