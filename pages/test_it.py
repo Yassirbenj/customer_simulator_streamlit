@@ -73,6 +73,7 @@ def parser (field,level):
     }
 
     output = prompt_and_model.invoke(input_data)
+    st.write(output)
     question=output[0]
     options=output[1]
     answer=output[2]
@@ -80,7 +81,7 @@ def parser (field,level):
     st.write(question)
     st.header("Options")
     st.write(options)
-    #st.write(output)
+
     #response=parser.invoke(output)
     #st.write(response)
 
