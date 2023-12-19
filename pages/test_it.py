@@ -111,8 +111,6 @@ def parser (field,level):
         st.write("Not the correct answer !")
         st.write(f"The correct answer is: {answer}")
 
-    st.set_page_config()
-
 def timer():
     ph = st.empty()
     N = 20
