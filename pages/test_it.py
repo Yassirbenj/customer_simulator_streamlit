@@ -81,9 +81,18 @@ def parser (field,level):
     output_dict = json.loads(output)
     st.write(output_dict)
     if "properties" in output_dict:
-        question=output_dict["properties"]["setup"]
-        options=output_dict["properties"]["options"]
-        answer=output_dict["properties"]["answer"]
+        if isinstance(output_dict["properties"]["setup"], dict):
+            question=output_dict["properties"]["setup"]["description"]
+        else:
+            question=output_dict["properties"]["setup"]
+        if isinstance(output_dict["properties"]["options"], dict):
+            question=output_dict["properties"]["options"]["description"]
+        else:
+            options=output_dict["properties"]["options"]
+        if isinstance(output_dict["properties"]["answer"], dict):
+            answer=output_dict["properties"]["answer"]["description"]
+        else:
+            answer=output_dict["properties"]["answer"]
     else:
         question=output_dict["setup"]
         options=output_dict["options"]
