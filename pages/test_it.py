@@ -141,7 +141,7 @@ def parser2 (field,level):
     st.write(output)
     output_dict = json.loads(output)
     st.write(output_dict)
-    question=output_dict["setup"]
+    #question=output_dict["setup"]
     options=output_dict["options"]
     answer=output_dict["answer"]
     st.header("Question")
