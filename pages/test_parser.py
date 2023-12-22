@@ -194,16 +194,15 @@ def quizz(question,option1,option2,option3,answer):
     st.header("Question")
     st.write(question)
     st.header("Select the best option")
-    with st.form(key='quiz_form'):
-        response = st.radio('select option',[option1, option2, option3],index=None)
-        validate = st.form_submit_button("Validate")
-        if validate:
-            if response == answer:
-                comparaison="Correct answer !"
-            else:
-                comparaison="Not the correct answer!"
-            st.session_state.comparaison=comparaison
-            #st.write(comparaison)
+    response = st.radio('select option',[option1, option2, option3],index=None)
+    validate = st.button("Validate")
+    if validate:
+        if response == answer:
+            comparaison="Correct answer !"
+        else:
+            comparaison="Not the correct answer!"
+        st.session_state.comparaison=comparaison
+        st.write(st.session_state.comparaison)
 
 def timer():
     ph = st.empty()
@@ -217,6 +216,6 @@ def timer():
 
 
 
-main()
+#main()
 #parser2("PHP","Beginner")
-#quizz('question','a','b','c','c')
+quizz('question','a','b','c','c')
