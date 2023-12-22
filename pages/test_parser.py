@@ -153,11 +153,11 @@ def parser2 (field,level):
     }
 
     output = prompt_and_model.invoke(input_data)
-    st.write(output)
+    #st.write(output)
     start_json=output.find('{')
     #st.write(start_json)
     output_cleaned=output[start_json-1:]
-    st.write(output_cleaned)
+    #st.write(output_cleaned)
     output_dict = json.loads(output_cleaned)
     #st.write(output_dict)
     if "properties" in output_dict:
