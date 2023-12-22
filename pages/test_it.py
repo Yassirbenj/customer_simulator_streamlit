@@ -161,24 +161,33 @@ def parser2 (field,level):
             question=output_dict["properties"]["setup"]["description"]
         else:
             question=output_dict["properties"]["setup"]
-        if isinstance(output_dict["properties"]["options"], dict):
-            options=output_dict["properties"]["options"]["description"]
+        if isinstance(output_dict["properties"]["option1"], dict):
+            option1=output_dict["properties"]["option1"]["description"]
         else:
-            options=output_dict["properties"]["options"]
+            option1=output_dict["properties"]["option1"]
+        if isinstance(output_dict["properties"]["option2"], dict):
+            option2=output_dict["properties"]["option2"]["description"]
+        else:
+            option2=output_dict["properties"]["option2"]
+        if isinstance(output_dict["properties"]["option3"], dict):
+            option3=output_dict["properties"]["option3"]["description"]
+        else:
+            option3=output_dict["properties"]["option3"]
         if isinstance(output_dict["properties"]["answer"], dict):
             answer=output_dict["properties"]["answer"]["description"]
         else:
             answer=output_dict["properties"]["answer"]
     else:
         question=output_dict["setup"]
-        options=output_dict["options"]
+        option1=output_dict["option1"]
+        option2=output_dict["option2"]
+        option3=output_dict["option3"]
         answer=output_dict["answer"]
-    elements = options.split(";;")
-    option_list = [element for element in elements]
+
     st.header("Question")
     st.write(question)
     st.header("Options")
-    response=st.radio("select the best option",option_list,index=None)
+    response=st.radio("select the best option",[option1,option2,option3],index=None)
     validate=st.button("Validate")
     if validate:
         if response==answer:
