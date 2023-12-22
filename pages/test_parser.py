@@ -23,8 +23,9 @@ def main():
         result=parser2(field,level)
         if result:
             st.write(result)
-            quizz(result[0],result[1],result[2],result[3],result[4])
-            st.write(st.session_state.comparaison)
+            comp=quizz(result[0],result[1],result[2],result[3],result[4])
+            if comp:
+                st.write(st.session_state.comparaison)
 
 
 def personae(field,level):
