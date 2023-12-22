@@ -154,7 +154,7 @@ def parser2 (field,level):
 
     output = prompt_and_model.invoke(input_data)
     st.write(output)
-    start_json=output.rfind('{')
+    start_json=output.find('{')
     st.write(start_json)
     output_dict = json.loads(output)
     #st.write(output_dict)
