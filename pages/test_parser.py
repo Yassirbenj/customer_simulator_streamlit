@@ -142,7 +142,7 @@ def parser2 (field,level):
 
     # And a query intended to prompt a language model to populate the data structure.
     prompt_and_model = prompt | model
-    query=f"You're an IT recruiter willing to evaluate a candidate. ask a technical question to evaluate competency of the candidate in field {field} with a level of expertise {level}. Give 3 options of response to choose from. only one option should be correct."
+    query=f"You're an IT recruiter willing to evaluate a candidate. ask a technical question to evaluate competency of the candidate in field {field} with a level of expertise {level}. Give 3 options of response to choose from. only one option should be correct. each option need to be separated by a comma."
     input_data = {
         "query": query,
         "setup": "Your detailed question here",  # Provide the setup question
