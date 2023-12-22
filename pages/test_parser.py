@@ -16,6 +16,7 @@ st.header("test")
 st.session_state.status="non started"
 
 def main():
+    st.write(st.session_state.status)
     if st.session_state.status=="non started":
         field=st.text_input("enter an evaluation  field")
         level=st.selectbox("enter level of expertise",options=("Beginner","Intermediate","Expert"))
