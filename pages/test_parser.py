@@ -207,7 +207,7 @@ def parser2 (field,level):
             else:
                 comparaison="Not the correct answer!"
                 #st.write(f"The correct answer is: {answer}")
-            return response,answer,comparaison
+    return response,answer,comparaison
 
 def timer():
     ph = st.empty()
