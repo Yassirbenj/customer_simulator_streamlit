@@ -191,7 +191,7 @@ def parser2 (field,level):
     st.header("Options")
 
     with st.form(key='quiz_form'):
-        response = st.radio("Select the best option", ['option1', 'option2', 'option3'],index=None)
+        response = st.radio("Select the best option", [option1, option2, option3],index=None)
         validate = st.form_submit_button("Validate")
 
     #response = st.radio("Select the best option", ['option1', 'option2', 'option3'],index=None)
