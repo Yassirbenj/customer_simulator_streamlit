@@ -209,13 +209,14 @@ def parser2 (field,level):
                 #st.write(f"The correct answer is: {answer}")
             return response,answer,comparaison
 
-def quizz(option1,option2,option3,answer):
+def quizz(question,option1,option2,option3,answer):
+    st.header("Question")
+    st.write(question)
+    st.header("Select the best Options")
     with st.form(key='quiz_form'):
-        response = st.radio("Select the best option", [option1, option2, option3],index=None)
+        response = st.radio([option1, option2, option3],index=None)
         validate = st.form_submit_button("Validate")
         if validate:
-            st.write(response)
-            st.write(answer)
             if response == answer:
                 comparaison="Correct answer !"
             else:
@@ -236,4 +237,4 @@ def timer():
 
 #main()
 #parser2("PHP","Beginner")
-quizz('a','b','c','c')
+quizz('question','a','b','c','c')
