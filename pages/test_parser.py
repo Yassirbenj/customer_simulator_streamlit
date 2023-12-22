@@ -23,6 +23,7 @@ def main():
         result=parser2(field,level)
         if result:
             st.write(result)
+            quizz(result)
 
 
 
@@ -186,28 +187,7 @@ def parser2 (field,level):
         option2=output_dict["option2"]
         option3=output_dict["option3"]
         answer=output_dict["answer"]
-
-    st.header("Question")
-    st.write(question)
-    st.header("Options")
-
-    with st.form(key='quiz_form'):
-        response = st.radio("Select the best option", [option1, option2, option3],index=None)
-        validate = st.form_submit_button("Validate")
-
-    #response = st.radio("Select the best option", ['option1', 'option2', 'option3'],index=None)
-    #validate = st.button("Validate")
-
-        if validate:
-            st.write(response)
-            st.write(answer)
-            if response == answer:
-                comparaison="Correct answer !"
-                #st.write("Correct answer!")
-            else:
-                comparaison="Not the correct answer!"
-                #st.write(f"The correct answer is: {answer}")
-            return response,answer,comparaison
+    return question,option1,option2,option3,answer
 
 def quizz(question,option1,option2,option3,answer):
     st.header("Question")
