@@ -21,7 +21,8 @@ def main():
     start=st.button("start")
     if start:
         result=parser2(field,level)
-        st.write(result)
+        if result:
+            st.write(result)
 
 
 
