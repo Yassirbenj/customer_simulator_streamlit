@@ -192,8 +192,8 @@ def parser2 (field,level):
     st.write(question)
     st.header("Options")
     response=st.radio("select the best option",[option1,option2,option3],index=None)
-    validate=st.button("Validate")
-    if validate:
+    #validate=st.button("Validate")
+    if response:
         st.write(response)
         st.write(answer)
         if response==answer:
