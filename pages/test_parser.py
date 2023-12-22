@@ -192,15 +192,16 @@ def parser2 (field,level):
     st.write(question)
     st.header("Options")
     with st.form(key='quiz_form'):
-        response=st.radio("select the best option",[option1,option2,option3],index=None)
+        response = st.radio("Select the best option", ['option1', 'option2', 'option3'],index=None)
         validate = st.form_submit_button("Validate")
+
         if validate:
             st.write(response)
             st.write(answer)
-            if response==answer:
-                st.write("Correct answer !")
+            if response == answer:
+                st.write("Correct answer!")
             else:
-                st.write("Not the correct answer !")
+                st.write("Not the correct answer!")
                 st.write(f"The correct answer is: {answer}")
 
 def timer():
