@@ -215,6 +215,6 @@ def timer():
 
 
 
-#main()
+main()
 #parser2("PHP","Beginner")
-quizz('question','a','b','c','c')
+#quizz('question','a','b','c','c')
