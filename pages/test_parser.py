@@ -24,7 +24,7 @@ def main():
         if result:
             st.write(result)
             quizz(result[0],result[1],result[2],result[3],result[4])
-
+            st.write(st.session_state.comparaison)
 
 
 def personae(field,level):
@@ -201,7 +201,8 @@ def quizz(question,option1,option2,option3,answer):
                 comparaison="Correct answer !"
             else:
                 comparaison="Not the correct answer!"
-            st.write(comparaison)
+            st.session_state.comparaison=comparaison
+            #st.write(comparaison)
 
 def timer():
     ph = st.empty()
