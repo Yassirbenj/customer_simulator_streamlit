@@ -157,7 +157,7 @@ def parser2 (field,level):
     start_json=output.find('{')
     #st.write(start_json)
     output_cleaned=output[start_json-1:]
-    #st.write(output_cleaned)
+    st.write(output_cleaned)
     output_dict = json.loads(output_cleaned)
     #st.write(output_dict)
     if "properties" in output_dict:
@@ -194,6 +194,8 @@ def parser2 (field,level):
     response=st.radio("select the best option",[option1,option2,option3],index=None)
     validate=st.button("Validate")
     if validate:
+        st.write(response)
+        st.write(answer)
         if response==answer:
             st.write("Correct answer !")
         else:
