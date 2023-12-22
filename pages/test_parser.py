@@ -13,20 +13,18 @@ from langchain.pydantic_v1 import BaseModel, Field, validator
 
 
 st.header("test")
-st.session_state.status="non started"
+
 
 def main():
-    st.write(st.session_state.status)
     if st.session_state.status=="non started":
         field=st.text_input("enter an evaluation  field")
         level=st.selectbox("enter level of expertise",options=("Beginner","Intermediate","Expert"))
         start=st.button("start")
         if start:
-            st.session_state.status="started"
-            #main()
+            result=parser2(field,level)
+            st.write(result)
 
-    if st.session_state.status=="started":
-       parser2(field,level)
+
 
 def personae(field,level):
     context="You are recruiter asking questions to evaluate competencies of a candidate. "
@@ -204,10 +202,12 @@ def parser2 (field,level):
             st.write(response)
             st.write(answer)
             if response == answer:
-                st.write("Correct answer!")
+                comparaison="Correct answer !"
+                #st.write("Correct answer!")
             else:
-                st.write("Not the correct answer!")
-                st.write(f"The correct answer is: {answer}")
+                comparaison="Not the correct answer!"
+                #st.write(f"The correct answer is: {answer}")
+            return response,answer,comparaison
 
 def timer():
     ph = st.empty()
