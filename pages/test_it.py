@@ -112,6 +112,81 @@ def parser (field,level):
             st.write("Not the correct answer !")
             st.write(f"The correct answer is: {answer}")
 
+def parser2 (field,level):
+    key=st.secrets["openai"]
+    model = OpenAI(model_name="gpt-3.5-turbo-instruct", temperature=1,openai_api_key=key)
+
+    # Defining data structure.
+    class Question(BaseModel):
+        setup: str = Field(description="detailed question to evaluate a candidate including a code snippet if exists")
+        option1: str=Field(description="first possible option for the question asked.")
+        option2: str=Field(description="second possible option for the question asked.")
+        option3: str=Field(description="third possible option for the question asked.")
+        answer: str = Field(description="correct option to resolve the question. give the option number like option1 or option2. ")
+
+        # validation logic
+        #@validator("setup")
+        #def question_ends_with_question_mark(cls, field):
+        #    if field[-1] != "?":
+        #        raise ValueError("Badly formed question!")
+        #    return field
+
+    # Set up a parser + inject instructions into the prompt template.
+    parser = PydanticOutputParser(pydantic_object=Question)
+
+    prompt = PromptTemplate(
+        template="Answer the user query.\n{format_instructions}\n{query}\n",
+        input_variables=["query"],
+        partial_variables={"format_instructions": parser.get_format_instructions()},
+    )
+
+    # And a query intended to prompt a language model to populate the data structure.
+    prompt_and_model = prompt | model
+    query=f"A technical question to evaluate competency of a candidate in field {field} with a level of expertise {level}. Give 3 options of response to choose from. only one option should be correct."
+    input_data = {
+        "query": query,
+        "setup": "Your setup question here",  # Provide the setup question
+        "option1": "First option here",
+        "option2": "Second option here",
+        "option3": "third option here",# Provide the options for the question
+        "answer": "The correct option here",  # Provide the correct answer
+    }
+
+    output = prompt_and_model.invoke(input_data)
+    #st.write(output)
+    output_dict = json.loads(output)
+    st.write(output_dict)
+    if "properties" in output_dict:
+        if isinstance(output_dict["properties"]["setup"], dict):
+            question=output_dict["properties"]["setup"]["description"]
+        else:
+            question=output_dict["properties"]["setup"]
+        if isinstance(output_dict["properties"]["options"], dict):
+            options=output_dict["properties"]["options"]["description"]
+        else:
+            options=output_dict["properties"]["options"]
+        if isinstance(output_dict["properties"]["answer"], dict):
+            answer=output_dict["properties"]["answer"]["description"]
+        else:
+            answer=output_dict["properties"]["answer"]
+    else:
+        question=output_dict["setup"]
+        options=output_dict["options"]
+        answer=output_dict["answer"]
+    elements = options.split(";;")
+    option_list = [element for element in elements]
+    st.header("Question")
+    st.write(question)
+    st.header("Options")
+    response=st.radio("select the best option",option_list,index=None)
+    validate=st.button("Validate")
+    if validate:
+        if response==answer:
+            st.write("Correct answer !")
+        else:
+            st.write("Not the correct answer !")
+            st.write(f"The correct answer is: {answer}")
+
 def timer():
     ph = st.empty()
     N = 20
@@ -125,4 +200,4 @@ def timer():
 
 
 #main()
-parser("PHP","Beginner")
+parser2("PHP","Beginner")
