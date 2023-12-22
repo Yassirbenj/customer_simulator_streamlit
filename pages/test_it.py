@@ -155,7 +155,7 @@ def parser2 (field,level):
     output = prompt_and_model.invoke(input_data)
     st.write(output)
     output_dict = json.loads(output)
-    st.write(output_dict)
+    #st.write(output_dict)
     if "properties" in output_dict:
         if isinstance(output_dict["properties"]["setup"], dict):
             question=output_dict["properties"]["setup"]["description"]
