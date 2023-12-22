@@ -191,23 +191,23 @@ def parser2 (field,level):
     st.write(question)
     st.header("Options")
 
-    with st.form(key='quiz_form'):
-        response = st.radio("Select the best option", [option1, option2, option3],index=None)
-        validate = st.form_submit_button("Validate")
+
+    response = st.radio("Select the best option", [option1, option2, option3],index=None)
+    validate = st.button("Validate")
 
     #response = st.radio("Select the best option", ['option1', 'option2', 'option3'],index=None)
     #validate = st.button("Validate")
 
-        if validate:
-            st.write(response)
-            st.write(answer)
-            if response == answer:
-                comparaison="Correct answer !"
-                #st.write("Correct answer!")
-            else:
-                comparaison="Not the correct answer!"
-                #st.write(f"The correct answer is: {answer}")
-    return response,answer,comparaison
+    if validate:
+        st.write(response)
+        st.write(answer)
+        if response == answer:
+            comparaison="Correct answer !"
+            #st.write("Correct answer!")
+        else:
+            comparaison="Not the correct answer!"
+            #st.write(f"The correct answer is: {answer}")
+        return response,answer,comparaison
 
 def timer():
     ph = st.empty()
