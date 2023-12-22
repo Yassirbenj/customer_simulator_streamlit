@@ -198,11 +198,11 @@ def parser2 (field,level):
         if validate:
             st.write(response)
             st.write(answer)
-            #if response == answer:
-            #    st.write("Correct answer!")
-            #else:
-            #    st.write("Not the correct answer!")
-            #    st.write(f"The correct answer is: {answer}")
+            if response == answer:
+                st.write("Correct answer!")
+            else:
+                st.write("Not the correct answer!")
+                st.write(f"The correct answer is: {answer}")
 
 def timer():
     ph = st.empty()
