@@ -212,9 +212,9 @@ def parser2 (field,level):
 def quizz(question,option1,option2,option3,answer):
     st.header("Question")
     st.write(question)
-    st.header("Select the best Options")
+    st.header("Select the best option")
     with st.form(key='quiz_form'):
-        response = st.radio([option1, option2, option3],index=None)
+        response = st.radio('select option',[option1, option2, option3],index=None)
         validate = st.form_submit_button("Validate")
         if validate:
             if response == answer:
