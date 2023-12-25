@@ -16,16 +16,19 @@ st.header("test")
 
 
 def main():
-    field=st.text_input("enter an evaluation  field")
-    level=st.selectbox("enter level of expertise",options=("Beginner","Intermediate","Expert"))
-    start=st.button("start")
-    if start:
-        result=parser2(field,level)
-        if result:
-            st.write(result)
-            comp=quizz(result[0],result[1],result[2],result[3],result[4])
+    if "step" not in st.session_state:
+        st.session_state.step=0
+        field=st.text_input("enter an evaluation  field")
+        level=st.selectbox("enter level of expertise",options=("Beginner","Intermediate","Expert"))
+        start=st.button("start")
+        if start:
+            result=parser2(field,level)
+            #st.write(result)
+            comp=quizz2(result[0],result[1],result[2],result[3],result[4])
             if comp:
-                st.write(st.session_state.comparaison)
+                st.session_state.step=1
+    else:
+        st.write(st.session_state.comparaison)
 
 
 def personae(field,level):
