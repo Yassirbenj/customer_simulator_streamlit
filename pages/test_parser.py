@@ -27,6 +27,16 @@ def main():
             if comp:
                 st.write(st.session_state.comparaison)
 
+def initiate():
+    with st.form("my_form"):
+        field=st.text_input("enter an evaluation  field")
+        level=st.selectbox("enter level of expertise",options=("Beginner","Intermediate","Expert"))
+        start=st.form_submit_button("Start")
+        if start:
+            result=parser2(field,level)
+            comp=quizz(result[0],result[1],result[2],result[3],result[4])
+                if comp:
+                    st.write(st.session_state.comparaison)
 
 def personae(field,level):
     context="You are recruiter asking questions to evaluate competencies of a candidate. "
@@ -125,14 +135,6 @@ def parser2 (field,level):
         option3: str=Field(description="third possible option for the question asked.")
         answer: str = Field(description="correct option to resolve the question. give the option number like option1 or option2. ")
 
-        # validation logic
-        #@validator("setup")
-        #def question_ends_with_question_mark(cls, field):
-        #    if field[-1] != "?":
-        #        raise ValueError("Badly formed question!")
-        #    return field
-
-    # Set up a parser + inject instructions into the prompt template.
     parser = PydanticOutputParser(pydantic_object=Question)
 
     prompt = PromptTemplate(
@@ -204,6 +206,18 @@ def quizz(question,option1,option2,option3,answer):
         st.session_state.comparaison=comparaison
         st.write(st.session_state.comparaison)
 
+def quizz2(question,option1,option2,option3,answer):
+    with st.form("my_form"):
+        response = st.radio('select option',[option1, option2, option3],index=None)
+        validate = st.form_submit_button("validate")
+        if validate:
+            if response == answer:
+                st.session_state.comparaison="Correct answer !"
+            else:
+                st.session_state.comparaison="Not the correct answer!"
+    st.write(st.session_state.comparaison)
+    return st.session_state.comparaison
+
 def timer():
     ph = st.empty()
     N = 20
@@ -216,6 +230,6 @@ def timer():
 
 
 
-main()
+#main()
 #parser2("PHP","Beginner")
-#quizz('question','a','b','c','c')
+quizz2('question','a','b','c','c')
