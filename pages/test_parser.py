@@ -34,21 +34,30 @@ def main():
                 st.session_state.step=1
                 st.session_state.entry=[field,level]
     if st.session_state.step==1:
-            st.write(st.session_state.step)
-            result=parser2(st.session_state.entry[0],st.session_state.entry[1])
-            #st.write(result)
-            st.session_state.results=result
-            st.header("Question")
-            st.write(result[0])
-            st.header("Select the best option")
-            options=[result[1], result[2], result[3]]
-            st.session_state.options=options
-            st.session_state.response = st.radio('select option',options,index=None)
-            validate = st.button("validate")
-            if validate:
-                st.session_state.step=2
+        st.write(st.session_state.step)
+        result=parser2(st.session_state.entry[0],st.session_state.entry[1])
+        #st.write(result)
+        st.session_state.results=result
+        st.header("Question")
+        st.write(result[0])
+        options=[result[1], result[2], result[3]]
+        st.session_state.options=options
+        st.session_state.step=2
+        st.session_state.response = st.radio('select option',options,index=None)
+
+
 
     if st.session_state.step==2:
+        st.header("Select the best option")
+        options=st.session_state.options=options
+        with st.form("options"):
+            response = st.radio('select option',options,index=None)
+            validate = st.form_submit_button("validate")
+            if validate:
+                st.session_state.step=3
+                st.session_state.response=response
+
+    if st.session_state.step==3:
             st.write(st.session_state.step)
             st.write(st.session_state.response)
             selected_index = st.session_state.options.index(st.session_state.response)
