@@ -205,8 +205,8 @@ def quizz2(question,option1,option2,option3,answer):
                 st.session_state.comparaison="Correct answer !"
             else:
                 st.session_state.comparaison="Not the correct answer!"
-    st.write(st.session_state.comparaison)
-    return st.session_state.comparaison
+            st.write(st.session_state.comparaison)
+            return st.session_state.comparaison
 
 def timer():
     ph = st.empty()
