@@ -27,16 +27,6 @@ def main():
             if comp:
                 st.write(st.session_state.comparaison)
 
-def initiate():
-    with st.form("my_form"):
-        field=st.text_input("enter an evaluation  field")
-        level=st.selectbox("enter level of expertise",options=("Beginner","Intermediate","Expert"))
-        start=st.form_submit_button("Start")
-        if start:
-            result=parser2(field,level)
-            comp=quizz(result[0],result[1],result[2],result[3],result[4])
-                if comp:
-                    st.write(st.session_state.comparaison)
 
 def personae(field,level):
     context="You are recruiter asking questions to evaluate competencies of a candidate. "
