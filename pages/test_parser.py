@@ -23,7 +23,7 @@ def main():
     if "results" not in st.session_state:
         st.session_state.results=[]
     if "response" not in st.session_state:
-        st.session_state.response=[]
+        st.session_state.response=""
     if st.session_state.step==0:
         st.write(st.session_state.step)
         with st.form("entry_details"):
@@ -41,20 +41,21 @@ def main():
             st.header("Question")
             st.write(result[0])
             st.header("Select the best option")
-            options=[result[1], result[2], result[3]]
+            st.session_state.options=[result[1], result[2], result[3]]
             with st.form("options"):
-                response = st.radio('select option',options,index=None)
+                st.session_state.response = st.radio('select option',st.session_state.options,index=None)
                 validate = st.form_submit_button("validate")
                 if validate:
                     st.session_state.step=2
-                    st.write(response)
-                    selected_index = options.index(response)
-                    st.session_state.response=[response,"option"+selected_index]
+
     if st.session_state.step==2:
             st.write(st.session_state.step)
-            if st.session_state.response[0] == st.session_state.results[4]:
+            st.write(st.session_state.response)
+            selected_index = st.session_state.options.index(st.session_state.response)
+            selected_index="option"+selected_index
+            if st.session_state.response == st.session_state.results[4]:
                 st.write("Correct answer !")
-            elif st.session_state.response[1] == st.session_state.results[4].lower():
+            elif selected_index == st.session_state.results[4].lower():
                 st.write("Correct answer !")
             else:
                 st.write("Not the correct answer!")
