@@ -19,9 +19,9 @@ def main():
     if "step" not in st.session_state:
         st.session_state.step=0
     if "entry" not in st.session_state:
-        st.session_state.comp="None"
+        st.session_state.comp=[]
     if "results" not in st.session_state:
-        st.session_state.results="None"
+        st.session_state.results=[]
     if "response" not in st.session_state:
         st.session_state.response="None"
     if st.session_state.step==0:
