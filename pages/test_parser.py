@@ -42,28 +42,26 @@ def main():
         st.write(result[0])
         options=[result[1], result[2], result[3]]
         st.session_state.options=options
+        st.header("Select the best option")
         st.session_state.step=2
+        st.session_state.response = st.radio('select option',options,index=None)
 
     if st.session_state.step==2:
-        st.header("Select the best option")
-        with st.form("options"):
-            response = st.radio('select option',options,index=None)
-            validate = st.form_submit_button("validate")
-            if validate:
-                st.session_state.step=3
-                st.session_state.response=response
+        validate = st.form_submit_button("validate")
+        if validate:
+            st.session_state.step=3
 
     if st.session_state.step==3:
-            st.write(st.session_state.step)
-            st.write(st.session_state.response)
-            selected_index = st.session_state.options.index(st.session_state.response)
-            selected_index="option"+selected_index
-            if st.session_state.response == st.session_state.results[4]:
-                st.write("Correct answer !")
-            elif selected_index == st.session_state.results[4].lower():
-                st.write("Correct answer !")
-            else:
-                st.write("Not the correct answer!")
+        st.write(st.session_state.step)
+        st.write(st.session_state.response)
+        selected_index = st.session_state.options.index(st.session_state.response)
+        selected_index="option"+selected_index
+        if st.session_state.response == st.session_state.results[4]:
+            st.write("Correct answer !")
+        elif selected_index == st.session_state.results[4].lower():
+            st.write("Correct answer !")
+        else:
+            st.write("Not the correct answer!")
 
     #else:
     #    st.write(st.session_state.comparaison)
