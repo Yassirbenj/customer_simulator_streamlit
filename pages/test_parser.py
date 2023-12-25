@@ -41,9 +41,10 @@ def main():
             st.header("Question")
             st.write(result[0])
             st.header("Select the best option")
-            st.session_state.options=[result[1], result[2], result[3]]
+            options=[result[1], result[2], result[3]]
+            st.session_state.options=options
             with st.form("options"):
-                st.session_state.response = st.radio('select option',st.session_state.options,index=None)
+                st.session_state.response = st.radio('select option',options,index=None)
                 validate = st.form_submit_button("validate")
                 if validate:
                     st.session_state.step=2
