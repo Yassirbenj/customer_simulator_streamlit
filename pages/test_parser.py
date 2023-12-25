@@ -47,6 +47,7 @@ def main():
                 validate = st.form_submit_button("validate")
                 if validate:
                     st.session_state.step=2
+                    st.write(response)
                     selected_index = options.index(response)
                     st.session_state.response=[response,"option"+selected_index]
     if st.session_state.step==2:
