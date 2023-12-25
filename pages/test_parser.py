@@ -18,19 +18,38 @@ st.header("test")
 def main():
     if "step" not in st.session_state:
         st.session_state.step=0
+    if "comp" not in st.session_state:
+        st.session_state.comp="None"
+    if "results" not in st.session_state:
+        st.session_state.results="None"
+    if "response" not in st.session_state:
+        st.session_state.response="None"
+    if st.session_state.step==0:
         st.write(st.session_state.step)
-        field=st.text_input("enter an evaluation  field")
-        level=st.selectbox("enter level of expertise",options=("Beginner","Intermediate","Expert"))
-        start=st.button("start")
-        if start:
-            st.session_state.step=1
+        with st.form("entry_details"):
+            field=st.text_input("enter an evaluation  field")
+            level=st.selectbox("enter level of expertise",options=("Beginner","Intermediate","Expert"))
+            start=st.form_submit_button("start")
+            if start:
+                st.session_state.step=1
+    if st.session_state.step==1:
             st.write(st.session_state.step)
             result=parser2(field,level)
             #st.write(result)
-            comp=quizz2(result[0],result[1],result[2],result[3],result[4])
-            if comp:
+            st.session_state.results=result
+            st.header("Question")
+            st.write(result[0])
+            st.header("Select the best option")
+            st.session_state.response = st.radio('select option',[result[1], result[2], result[3]],index=None)
+            validate = st.button("validate")
+            if validate:
                 st.session_state.step=2
-                st.write(st.session_state.step)
+    if st.session_state.step==2:
+            if st.session_state.response == st.session_state.results[4]:
+                st.write("Correct answer !")
+            else:
+                st.write("Not the correct answer!")
+
     #else:
     #    st.write(st.session_state.comparaison)
 
