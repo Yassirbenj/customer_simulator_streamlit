@@ -44,7 +44,7 @@ def main():
             options=[result[1], result[2], result[3]]
             st.session_state.options=options
             st.session_state.response = st.radio('select option',options,index=None)
-            validate = st.form_submit_button("validate")
+            validate = st.button("validate")
             if validate:
                 st.session_state.step=2
 
