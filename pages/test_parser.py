@@ -42,12 +42,13 @@ def main():
             st.write(result[0])
             st.header("Select the best option")
             options=[result[1], result[2], result[3]]
-            response = st.radio('select option',options,index=None)
-            validate = st.button("validate")
-            if validate:
-                st.session_state.step=2
-                selected_index = options.index(response)
-                st.session_state.response=[response,"option"+selected_index]
+            with st.form("options"):
+                response = st.radio('select option',options,index=None)
+                validate = st.form_submit_button("validate")
+                if validate:
+                    st.session_state.step=2
+                    selected_index = options.index(response)
+                    st.session_state.response=[response,"option"+selected_index]
     if st.session_state.step==2:
             st.write(st.session_state.step)
             if st.session_state.response[0] == st.session_state.results[4]:
