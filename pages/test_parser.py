@@ -19,13 +19,13 @@ def main():
     if "step" not in st.session_state:
         st.session_state.step=0
     if "entry" not in st.session_state:
-        st.session_state.comp=[]
+        st.session_state.entry=[]
     if "results" not in st.session_state:
         st.session_state.results=[]
     if "response" not in st.session_state:
-        st.session_state.response="None"
+        st.session_state.response=[]
     if st.session_state.step==0:
-        st.write(st.session_state.step)
+        #st.write(st.session_state.step)
         with st.form("entry_details"):
             field=st.text_input("enter an evaluation  field")
             level=st.selectbox("enter level of expertise",options=("Beginner","Intermediate","Expert"))
@@ -34,20 +34,25 @@ def main():
                 st.session_state.step=1
                 st.session_state.entry=[field,level]
     if st.session_state.step==1:
-            st.write(st.session_state.step)
+            #st.write(st.session_state.step)
             result=parser2(st.session_state.entry[0],st.session_state.entry[1])
             #st.write(result)
             st.session_state.results=result
             st.header("Question")
             st.write(result[0])
             st.header("Select the best option")
-            st.session_state.response = st.radio('select option',[result[1], result[2], result[3]],index=None)
+            options=[result[1], result[2], result[3]]
+            response = st.radio('select option',options,index=None)
+            selected_index = options.index(st.session_state.response)
+            st.session_state.response=[response,"option"+selected_index]
             validate = st.button("validate")
             if validate:
                 st.session_state.step=2
     if st.session_state.step==2:
-            st.write(st.session_state.step)
-            if st.session_state.response == st.session_state.results[4]:
+            #st.write(st.session_state.step)
+            if st.session_state.response[0] == st.session_state.results[4]:
+                st.write("Correct answer !")
+            elif st.session_state.response[1] == st.session_state.results[4].lower():
                 st.write("Correct answer !")
             else:
                 st.write("Not the correct answer!")
