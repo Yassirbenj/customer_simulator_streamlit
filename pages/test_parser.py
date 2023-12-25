@@ -18,7 +18,7 @@ st.header("test")
 def main():
     if "step" not in st.session_state:
         st.session_state.step=0
-    if "comp" not in st.session_state:
+    if "entry" not in st.session_state:
         st.session_state.comp="None"
     if "results" not in st.session_state:
         st.session_state.results="None"
@@ -32,9 +32,10 @@ def main():
             start=st.form_submit_button("start")
             if start:
                 st.session_state.step=1
+                st.session_state.entry=[field,level]
     if st.session_state.step==1:
             st.write(st.session_state.step)
-            result=parser2(field,level)
+            result=parser2(st.session_state.entry[0],st.session_state.entry[1])
             #st.write(result)
             st.session_state.results=result
             st.header("Question")
