@@ -46,6 +46,7 @@ def main():
             if validate:
                 st.session_state.step=2
     if st.session_state.step==2:
+            st.write(st.session_state.step)
             if st.session_state.response == st.session_state.results[4]:
                 st.write("Correct answer !")
             else:
