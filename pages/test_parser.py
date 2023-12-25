@@ -43,9 +43,6 @@ def main():
         options=[result[1], result[2], result[3]]
         st.session_state.options=options
         st.session_state.step=2
-        st.session_state.response = st.radio('select option',options,index=None)
-
-
 
     if st.session_state.step==2:
         st.header("Select the best option")
