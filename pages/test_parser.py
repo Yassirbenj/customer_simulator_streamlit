@@ -45,9 +45,8 @@ def main():
             response = st.radio('select option',options,index=None)
             validate = st.button("validate")
             if validate:
-                st.write(st.session_state.step)
                 st.session_state.step=2
-                selected_index = options.index(st.session_state.response)
+                selected_index = options.index(response)
                 st.session_state.response=[response,"option"+selected_index]
     if st.session_state.step==2:
             st.write(st.session_state.step)
