@@ -48,7 +48,7 @@ def main():
                 validate = st.form_submit_button("validate")
                 if validate:
                     st.session_state.step=2
-                    st.session_state_response=response
+                    st.session_state.response=response
 
     if st.session_state.step==2:
             st.write(st.session_state.step)
